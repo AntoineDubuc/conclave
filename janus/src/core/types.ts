@@ -44,7 +44,7 @@ export const DEFAULT_CONFIG: JanusConfig = {
     providers: {
         anthropic: { type: 'anthropic', model: 'claude-sonnet-4-5-20250929', auth_method: 'auto' },
         openai: { type: 'openai', model: 'gpt-5.2', auth_method: 'api_key' },
-        gemini: { type: 'gemini', model: 'gemini-3-flash', auth_method: 'api_key' },
+        gemini: { type: 'gemini', model: 'gemini-2.0-flash', auth_method: 'api_key' },
         grok: { type: 'openai_compatible', model: 'grok-4', auth_method: 'api_key', api_key: '', base_url: 'https://api.x.ai/v1' }
     },
     flows: {

@@ -11,7 +11,7 @@ providers:
     model: gpt-4o
   gemini:
     type: gemini
-    model: gemini-1.5-pro
+    model: gemini-2.0-flash
   grok:
     type: openai_compatible
     model: grok-4
