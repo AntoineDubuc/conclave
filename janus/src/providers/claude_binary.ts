@@ -23,7 +23,7 @@ export class ClaudeBinaryProvider implements Provider {
             }
 
             const child = spawn('claude', args, {
-                shell: true,
+                shell: false, // Don't use shell to avoid prompt being interpreted as commands
                 stdio: ['ignore', 'pipe', 'pipe'] // Ignore stdin so we don't hang if it asks for input
             });
 
