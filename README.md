@@ -15,24 +15,16 @@ Different AI models have different strengths, biases, and blind spots. Janus lev
 
 By having them collaborate, you get solutions that are more robust, creative, and thoroughly vetted.
 
-## How It Works
+## Features
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                         ROUND 1                             │
-│   Input → [Claude] [GPT] [Gemini] [Grok] → Individual plans │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                         ROUND 2                             │
-│   Each model sees all peer outputs, critiques, and refines  │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                         ROUND N                             │
-│   Convergence: Models synthesize best ideas from all        │
-└─────────────────────────────────────────────────────────────┘
-```
+| Feature | Description |
+|---------|-------------|
+| **Batch Flows** | Structured multi-round collaboration with file output |
+| **Interactive Chat** | Real-time multi-LLM conversations with shared context |
+| **@Mentions** | Target specific models in chat |
+| **Multiple Flow Types** | Democratic (basic) or hierarchical (leading) patterns |
+
+---
 
 ## Quick Start
 
@@ -52,6 +44,9 @@ export XAI_API_KEY="..."  # For Grok
 
 # Run your first collaboration
 janus run basic-ideator your-idea.md
+
+# Start an interactive chat
+janus chat
 ```
 
 ### TypeScript
@@ -65,25 +60,108 @@ npm link
 janus run basic-ideator your-idea.md
 ```
 
-## Available Flows
+---
+
+## Interactive Chat Room
+
+Have real-time discussions with multiple AI models, all sharing context.
+
+### How It Works
+
+**Turn-based**: You send a message → All models respond → You send another → All respond again...
+
+```
+You:      "What's the best approach for caching?"
+          ↓
+Claude:   "Redis for distributed, LRU for single-node."
+GPT:      "Agree. Consider cache invalidation strategy."
+Gemini:   "Don't forget CDN caching for static assets."
+          ↓
+You:      "@anthropic elaborate on Redis"
+          ↓
+Claude:   "Redis offers pub/sub for invalidation..."
+          (Only Claude responds - @mention targeting)
+```
+
+Each model sees the **full conversation history**, so they can reference and build on each other's responses.
+
+### Usage
+
+```bash
+janus chat                          # All active models
+janus chat -m anthropic -m openai   # Specific models
+janus chat -s my_session.json       # Resume session
+```
+
+### Chat Features
+
+| Feature | Example |
+|---------|---------|
+| @mentions | `@anthropic what do you think?` - only that model responds |
+| Expand responses | `/expand` - get detailed 500+ word answers |
+| Save sessions | `/save my-brainstorm` - persist for later |
+| Target models | `/ask openai` - single model response |
+
+See the full [Chat Tutorial](docs/tutorials/CHAT_TUTORIAL.md) for more.
+
+---
+
+## Batch Flows
+
+### How Flows Work
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         ROUND 1                             │
+│   Input → [Claude] [GPT] [Gemini] [Grok] → Individual plans │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                         ROUND 2                             │
+│   Each model sees all peer outputs, critiques, and refines  │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                         ROUND N                             │
+│   Convergence: Models synthesize best ideas from all        │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Available Flows
 
 | Flow | Type | Description |
 |------|------|-------------|
 | `basic-ideator` | Democratic | Round-robin: all models brainstorm, then refine based on peer feedback |
 | `leading-ideator` | Hub-spoke | One model leads and synthesizes contributions from others |
-| `audit` | Democratic | Security-focused code review with cross-validation |
+
+### Tutorials
+
+- [Basic Flow Tutorial](docs/tutorials/BASIC_FLOW_TUTORIAL.md) - Security audit use case
+- [Leading Flow Tutorial](docs/tutorials/LEADING_FLOW_TUTORIAL.md) - Architecture design use case
+- [Chat Tutorial](docs/tutorials/CHAT_TUTORIAL.md) - Feature brainstorming use case
+
+---
 
 ## CLI Commands
 
 ```bash
+# Flows
 janus list                          # Show available flows
 janus run <flow> <file.md>          # Run a flow on input
-janus run leading-ideator input.md --leader openai  # Specify leader
+janus run leading-ideator input.md --leader openai
+
+# Chat
+janus chat                          # Start interactive chat
+janus chat -m anthropic -m openai   # Chat with specific models
+
+# Management
 janus doctor                        # Check provider connectivity
 janus models                        # Configure AI models
 janus new-flow                      # Create a custom flow
 janus auth-claude                   # Manage Claude CLI auth
 ```
+
+---
 
 ## Configuration
 
@@ -119,15 +197,37 @@ flows:
       refinement: "Review peer feedback..."
 ```
 
+---
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Getting Started](GETTING_STARTED.md) | Installation and setup |
+| [Chat Tutorial](docs/tutorials/CHAT_TUTORIAL.md) | Interactive chat room guide |
+| [Basic Flow Tutorial](docs/tutorials/BASIC_FLOW_TUTORIAL.md) | Round-robin flow guide |
+| [Leading Flow Tutorial](docs/tutorials/LEADING_FLOW_TUTORIAL.md) | Hub-and-spoke flow guide |
+| [Chat Transcript Example](docs/CHAT_TRANSCRIPT_EXAMPLE.md) | Full example session |
+
+### Platform-Specific Setup
+
+- [macOS](docs/GETTING_STARTED_MACOS.md)
+- [Windows](docs/GETTING_STARTED_WINDOWS.md)
+- [Ubuntu](docs/GETTING_STARTED_UBUNTU.md)
+
+---
+
 ## Project Structure
 
 ```
 .
 ├── python/          # Python implementation (recommended)
 ├── typescript/      # TypeScript/Node.js implementation
-├── GETTING_STARTED.md  # Newbie tutorial
+├── docs/            # Documentation and tutorials
 └── README.md        # This file
 ```
+
+---
 
 ## Authentication Options
 
@@ -143,13 +243,20 @@ claude  # Authenticate once
 janus auth-claude  # Verify status
 ```
 
+---
+
 ## Use Cases
 
-- **Architecture Planning**: Get multiple perspectives on system design
-- **Code Review**: Cross-validate security and quality findings
-- **Creative Brainstorming**: Harvest diverse ideas and synthesize the best
-- **Technical Writing**: Multiple models critique and improve documentation
-- **Problem Solving**: Approach complex problems from multiple angles
+| Use Case | Recommended Feature |
+|----------|---------------------|
+| Open-ended brainstorming | `janus chat` |
+| Architecture design | Leading flow with `--leader anthropic` |
+| Security audit | Basic flow (cross-validation) |
+| Code review | Chat or Basic flow |
+| Technical writing | Leading flow |
+| Problem solving | Chat for exploration, flow for depth |
+
+---
 
 ## License
 
