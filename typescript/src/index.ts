@@ -10,6 +10,8 @@ import { createFlowEngine, getFlowMetadata } from './flows/index.js';
 import { newFlowWizard } from './commands/new-flow.js';
 import { initCommand } from './commands/init.js';
 import { printBanner } from './utils/banner.js';
+import { ChatRoom } from './chat/index.js';
+import { loadSession } from './chat/persistence.js';
 import inquirer from 'inquirer';
 
 const program = new Command();
@@ -171,6 +173,55 @@ async function main() {
         .description('Run the setup wizard to configure providers')
         .action(async () => {
             await initCommand(configManager);
+        });
+
+    program
+        .command('chat')
+        .description('Start interactive multi-LLM chat room')
+        .option('-m, --models <models...>', 'Specific models to include')
+        .option('-s, --session <file>', 'Load a previous session')
+        .action(async (options) => {
+            try {
+                printBanner('Chat Room');
+                console.log();
+
+                const config = configManager.getConfig();
+                let providers = ProviderFactory.createProviders(config);
+
+                // Filter to specific models if requested
+                if (options.models && options.models.length > 0) {
+                    providers = providers.filter(p =>
+                        options.models.some((m: string) =>
+                            p.name.toLowerCase().includes(m.toLowerCase()) ||
+                            m.toLowerCase().includes(p.name.toLowerCase())
+                        )
+                    );
+
+                    if (providers.length === 0) {
+                        console.error(chalk.red(`No matching providers found for: ${options.models.join(', ')}`));
+                        process.exit(1);
+                    }
+                }
+
+                // Load session if specified
+                let session;
+                if (options.session) {
+                    try {
+                        session = loadSession(options.session);
+                        console.log(chalk.gray(`Loaded session: ${session.sessionId}`));
+                    } catch (error) {
+                        console.error(chalk.red(`Failed to load session: ${error}`));
+                        process.exit(1);
+                    }
+                }
+
+                const room = new ChatRoom(providers, {}, session);
+                await room.start();
+
+            } catch (error) {
+                console.error(chalk.red('Fatal Error:'), error);
+                process.exit(1);
+            }
         });
 
     program.parse();

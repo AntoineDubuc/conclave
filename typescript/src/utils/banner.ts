@@ -22,7 +22,7 @@ export function printBanner(subtitle?: string): void {
     const lines = asciiArt.split('\n');
 
     // Print with left-to-right gradient effect
-    lines.forEach((line) => {
+    lines.forEach((line: string) => {
         if (line.trim()) {
             const trimmedLine = line.trimEnd();
             const lineLen = trimmedLine.length;

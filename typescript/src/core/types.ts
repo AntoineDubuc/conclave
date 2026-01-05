@@ -45,6 +45,40 @@ export type ConclaveConfig = z.infer<typeof ConclaveConfigSchema>;
 export type FlowConfig = z.infer<typeof FlowSchema>;
 export type ProviderConfig = z.infer<typeof ProviderConfigSchema>;
 
+// Chat types
+export enum MessageRole {
+    USER = 'user',
+    ASSISTANT = 'assistant',
+    SYSTEM = 'system',
+}
+
+export interface ChatMessage {
+    id: string;
+    role: MessageRole;
+    content: string;
+    model?: string;
+    timestamp: Date;
+    isExpanded: boolean;
+}
+
+export interface ChatConfig {
+    maxResponseTokens: number;
+    expandMaxTokens: number;
+    maxContextTokens: number;
+    maxHistoryMessages: number;
+    parallelResponses: boolean;
+    showTimestamps: boolean;
+}
+
+export const DEFAULT_CHAT_CONFIG: ChatConfig = {
+    maxResponseTokens: 300,
+    expandMaxTokens: 2000,
+    maxContextTokens: 8000,
+    maxHistoryMessages: 50,
+    parallelResponses: true,
+    showTimestamps: false,
+};
+
 export const DEFAULT_CONFIG: ConclaveConfig = {
     active_providers: ['anthropic', 'openai', 'gemini'],
     providers: {
