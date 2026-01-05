@@ -3,15 +3,35 @@ import 'dotenv/config'; // Load .env file
 import { Command } from 'commander';
 import chalk from 'chalk';
 import path from 'path';
+import fs from 'fs';
+import os from 'os';
 import { ConfigManager } from './core/config.js';
 import { ProviderFactory } from './providers/factory.js';
 import { FlowEngine } from './core/engine.js';
 import { newFlowWizard } from './commands/new-flow.js';
+import { initCommand } from './commands/init.js';
 
 const program = new Command();
 const configManager = new ConfigManager();
 
+// Check if this is first run (no config file exists)
+const GLOBAL_CONFIG_FILE = path.join(os.homedir(), '.janus', 'config.yaml');
+const LOCAL_CONFIG_FILE = path.join(process.cwd(), 'janus.config.yaml');
+
+async function checkFirstRun(): Promise<boolean> {
+    // Check if either config file exists
+    return !fs.existsSync(GLOBAL_CONFIG_FILE) && !fs.existsSync(LOCAL_CONFIG_FILE);
+}
+
 async function main() {
+    const isFirstRun = await checkFirstRun();
+
+    // If first run and no specific command given, run init wizard
+    if (isFirstRun && process.argv.length <= 2) {
+        await initCommand(configManager);
+        return;
+    }
+
     await configManager.ensureConfig();
 
     program
@@ -102,6 +122,13 @@ async function main() {
         .action(async () => {
             const { authClaudeCommand } = await import('./commands/auth-claude.js');
             await authClaudeCommand();
+        });
+
+    program
+        .command('init')
+        .description('Run the setup wizard to configure providers')
+        .action(async () => {
+            await initCommand(configManager);
         });
 
     program.parse();

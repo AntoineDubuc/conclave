@@ -13,6 +13,7 @@ export const FlowSchema = z.object({
 export const ProviderConfigSchema = z.object({
     type: z.enum(['anthropic', 'openai', 'gemini', 'openai_compatible', 'grok']),
     model: z.string().optional(),
+    auth_method: z.enum(['cli', 'api_key', 'auto']).optional().default('auto'), // How to authenticate
     api_key: z.string().optional(), // Can also be env var
     endpoint: z.string().optional(), // For openai_compatible
     base_url: z.string().optional(), // For openai_compatible
@@ -41,10 +42,10 @@ export type ProviderConfig = z.infer<typeof ProviderConfigSchema>;
 export const DEFAULT_CONFIG: JanusConfig = {
     active_providers: ['anthropic', 'openai', 'gemini'],
     providers: {
-        anthropic: { type: 'anthropic', model: 'claude-sonnet-4-5-20250929' },
-        openai: { type: 'openai', model: 'gpt-5.2' },
-        gemini: { type: 'gemini', model: 'gemini-3-flash' },
-        grok: { type: 'openai_compatible', model: 'grok-4', api_key: '', base_url: 'https://api.x.ai/v1' }
+        anthropic: { type: 'anthropic', model: 'claude-sonnet-4-5-20250929', auth_method: 'auto' },
+        openai: { type: 'openai', model: 'gpt-5.2', auth_method: 'api_key' },
+        gemini: { type: 'gemini', model: 'gemini-3-flash', auth_method: 'api_key' },
+        grok: { type: 'openai_compatible', model: 'grok-4', auth_method: 'api_key', api_key: '', base_url: 'https://api.x.ai/v1' }
     },
     flows: {
         ideation: {
