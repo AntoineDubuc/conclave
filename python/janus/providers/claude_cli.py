@@ -24,15 +24,17 @@ class ClaudeCliProvider(Provider):
             return "[Error] Claude CLI not found. Install it or use API key auth."
 
         try:
+            # Prepend system prompt to user prompt (CLI doesn't have --system flag)
+            full_prompt = prompt
+            if options.system_prompt:
+                full_prompt = f"{options.system_prompt}\n\n---\n\n{prompt}"
+
             # Build command
             cmd = [
                 claude_path,
-                "-p", prompt,
+                "-p", full_prompt,
                 "--dangerously-skip-permissions",
             ]
-
-            if options.system_prompt:
-                cmd.extend(["--system", options.system_prompt])
 
             # Run the process
             process = await asyncio.create_subprocess_exec(
