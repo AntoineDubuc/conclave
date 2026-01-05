@@ -366,5 +366,46 @@ def init():
     console.print(f"Edit {config_manager.config_path} to configure providers and flows.")
 
 
+@main.command()
+@click.option("-m", "--model", "models", multiple=True, help="Models to include (default: all active)")
+@click.option("-s", "--session", "session_file", help="Load existing session file")
+def chat(models: tuple[str], session_file: str | None):
+    """Start an interactive multi-LLM chat room."""
+    from .chat import ChatRoom, ChatSession
+    from .chat.persistence import load_session
+    from .core.types import ChatConfig
+
+    config_manager = ConfigManager()
+    config = config_manager.get_config()
+
+    # Filter providers based on --model flag
+    if models:
+        active = [m.lower() for m in models]
+        config.active_providers = [p for p in config.active_providers if p.lower() in active]
+
+    providers = create_providers(config)
+
+    if not providers:
+        console.print("[red]No providers available. Run `janus doctor` to check.[/red]")
+        raise SystemExit(1)
+
+    # Load existing session if specified
+    session = None
+    if session_file:
+        try:
+            session = load_session(session_file)
+            console.print(f"[dim]Resumed session from {session_file}[/dim]")
+        except FileNotFoundError:
+            console.print(f"[red]Session file not found: {session_file}[/red]")
+            raise SystemExit(1)
+
+    # Create chat config and room
+    chat_config = ChatConfig()
+    room = ChatRoom(providers, chat_config, session, console)
+
+    # Run the chat
+    asyncio.run(room.start())
+
+
 if __name__ == "__main__":
     main()

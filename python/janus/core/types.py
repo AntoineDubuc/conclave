@@ -1,5 +1,7 @@
 """Core types and schemas for Janus configuration."""
 
+import uuid
+from datetime import datetime
 from enum import Enum
 from typing import Literal
 
@@ -23,6 +25,51 @@ class ProviderType(str, Enum):
 class FlowType(str, Enum):
     BASIC = "basic"
     LEADING = "leading"
+
+
+class MessageRole(str, Enum):
+    """Role of a message in chat."""
+
+    USER = "user"
+    ASSISTANT = "assistant"
+    SYSTEM = "system"
+
+
+class ContextStrategy(str, Enum):
+    """Strategy for managing chat context window."""
+
+    SLIDING_WINDOW = "sliding_window"
+    SUMMARIZE = "summarize"
+
+
+class ChatMessage(BaseModel):
+    """A single message in chat."""
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4())[:8])
+    role: MessageRole
+    content: str
+    model: str | None = None  # Which model authored this (None for user)
+    timestamp: datetime = Field(default_factory=datetime.now)
+    is_expanded: bool = False  # Whether this is an expanded response
+
+
+class ChatConfig(BaseModel):
+    """Configuration for chat sessions."""
+
+    # Response length control
+    max_response_tokens: int = 300  # Encourages 2-4 sentences
+    expand_max_tokens: int = 2000  # For /expand command
+
+    # Context management
+    context_strategy: ContextStrategy = ContextStrategy.SLIDING_WINDOW
+    max_context_tokens: int = 8000
+    max_history_messages: int = 50
+
+    # Behavior
+    parallel_responses: bool = True  # Get all model responses in parallel
+
+    # UI
+    show_timestamps: bool = False
 
 
 class ProviderConfig(BaseModel):
