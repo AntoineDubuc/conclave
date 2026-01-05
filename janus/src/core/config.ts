@@ -1,37 +1,32 @@
 import fs from 'fs';
 import path from 'path';
-import os from 'os';
 import yaml from 'js-yaml';
 import chalk from 'chalk';
 import { JanusConfig, JanusConfigSchema, DEFAULT_CONFIG } from './types.js';
 
-const GLOBAL_CONFIG_DIR = path.join(os.homedir(), '.janus');
-const GLOBAL_CONFIG_FILE = path.join(GLOBAL_CONFIG_DIR, 'config.yaml');
+// Local-first: config lives in the current working directory
+const LOCAL_CONFIG_FILE = 'janus.config.yaml';
 
 export class ConfigManager {
     private config: JanusConfig;
-    private loadedConfigPath: string = path.join(os.homedir(), '.janus', 'config.yaml'); // Default
+    private loadedConfigPath: string;
 
     constructor() {
+        this.loadedConfigPath = path.join(process.cwd(), LOCAL_CONFIG_FILE);
         this.config = this.loadConfig();
     }
 
     private loadConfig(): JanusConfig {
-        // Priority 1: Current directory janus.config.yaml
-        const localConfig = path.join(process.cwd(), 'janus.config.yaml');
+        // Only use local config in current working directory
+        const localConfig = path.join(process.cwd(), LOCAL_CONFIG_FILE);
         if (fs.existsSync(localConfig)) {
             console.log(chalk.gray(`Loaded config from: ${localConfig}`));
             this.loadedConfigPath = localConfig;
             return this.parseConfigFile(localConfig);
         }
 
-        // Priority 2: Home directory .janus/config.yaml
-        if (fs.existsSync(GLOBAL_CONFIG_FILE)) {
-            this.loadedConfigPath = GLOBAL_CONFIG_FILE;
-            return this.parseConfigFile(GLOBAL_CONFIG_FILE);
-        }
-
-        this.loadedConfigPath = GLOBAL_CONFIG_FILE; // Default to global if nothing exists
+        // No config found - use defaults (will create locally on first save)
+        this.loadedConfigPath = localConfig;
         return DEFAULT_CONFIG;
     }
 
@@ -86,9 +81,9 @@ export class ConfigManager {
         console.log(chalk.gray(`Saved config to: ${this.loadedConfigPath}`));
     }
 
-    // Ensures the config file exists on disk
+    // Ensures the config file exists on disk (locally in cwd)
     public async ensureConfig() {
-        if (!fs.existsSync(GLOBAL_CONFIG_FILE)) {
+        if (!fs.existsSync(this.loadedConfigPath)) {
             await this.saveConfig(DEFAULT_CONFIG);
         }
     }
