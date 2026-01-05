@@ -9,6 +9,7 @@ import { ProviderFactory } from './providers/factory.js';
 import { createFlowEngine, getFlowMetadata } from './flows/index.js';
 import { newFlowWizard } from './commands/new-flow.js';
 import { initCommand } from './commands/init.js';
+import { printBanner } from './utils/banner.js';
 import inquirer from 'inquirer';
 
 const program = new Command();
@@ -35,7 +36,13 @@ async function main() {
     program
         .name('janus')
         .description('Janus - Multi-LLM collaboration to harvest unique insights')
-        .version('0.1.0');
+        .version('0.1.0')
+        .action(() => {
+            // No command given - show banner and help
+            printBanner();
+            console.log();
+            program.outputHelp();
+        });
 
     program
         .command('run')

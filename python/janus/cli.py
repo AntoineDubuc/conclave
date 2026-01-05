@@ -16,6 +16,7 @@ from .core.config import ConfigManager
 from .core.types import FlowConfig, FlowPrompts, FlowType
 from .flows import create_flow_engine, get_flow_metadata
 from .providers.factory import create_providers
+from .utils.banner import print_banner
 
 # Load .env file
 load_dotenv()
@@ -50,11 +51,16 @@ KNOWN_MODELS = {
 }
 
 
-@click.group()
+@click.group(invoke_without_command=True)
 @click.version_option(version="0.1.0")
-def main():
+@click.pass_context
+def main(ctx):
     """Janus - Multi-LLM collaboration to harvest unique insights."""
-    pass
+    if ctx.invoked_subcommand is None:
+        # No command given - show banner and help
+        print_banner(console)
+        console.print()
+        console.print(ctx.get_help())
 
 
 @main.command()

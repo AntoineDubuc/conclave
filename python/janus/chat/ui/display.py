@@ -7,6 +7,8 @@ from rich.panel import Panel
 from rich.spinner import Spinner
 from rich.table import Table
 
+from ...utils.banner import print_banner
+
 # Model color mapping
 MODEL_COLORS = {
     "anthropic": "magenta",
@@ -25,7 +27,8 @@ class ChatDisplay:
     def show_welcome(self, models: list[str]) -> None:
         """Display welcome message and available models."""
         self.console.print()
-        self.console.print("[bold cyan]━━━ Janus Chat Room ━━━[/bold cyan]")
+        print_banner(self.console, subtitle="Chat Room")
+        self.console.print()
         self.console.print(f"[dim]Models: {', '.join(models)}[/dim]")
         self.console.print("[dim]Type /help for commands, /quit to exit[/dim]")
         self.console.print()
