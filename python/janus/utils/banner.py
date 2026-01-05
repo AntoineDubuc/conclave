@@ -28,11 +28,18 @@ def print_banner(console: Console | None = None, subtitle: str | None = None) ->
     ascii_art = pyfiglet.figlet_format("JANUS", font="banner3")
     lines = ascii_art.split("\n")
 
-    # Print with gradient effect
-    for i, line in enumerate(lines):
+    # Print with left-to-right gradient effect
+    from rich.text import Text
+    for line in lines:
         if line.strip():
-            color = GRADIENT_COLORS[i % len(GRADIENT_COLORS)]
-            console.print(line, style=f"bold {color}")
+            text = Text()
+            line_len = len(line.rstrip())
+            for j, char in enumerate(line.rstrip()):
+                # Calculate color index based on horizontal position
+                color_idx = int(j / max(line_len - 1, 1) * (len(GRADIENT_COLORS) - 1))
+                color = GRADIENT_COLORS[color_idx]
+                text.append(char, style=f"bold {color}")
+            console.print(text)
 
     # Print subtitle
     if subtitle:

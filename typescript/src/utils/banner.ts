@@ -21,11 +21,19 @@ export function printBanner(subtitle?: string): void {
     const asciiArt = figlet.textSync('JANUS', { font: 'Banner3' });
     const lines = asciiArt.split('\n');
 
-    // Print with gradient effect
-    lines.forEach((line, i) => {
+    // Print with left-to-right gradient effect
+    lines.forEach((line) => {
         if (line.trim()) {
-            const color = GRADIENT_COLORS[i % GRADIENT_COLORS.length];
-            console.log(color.bold(line));
+            const trimmedLine = line.trimEnd();
+            const lineLen = trimmedLine.length;
+            let coloredLine = '';
+            for (let j = 0; j < trimmedLine.length; j++) {
+                // Calculate color index based on horizontal position
+                const colorIdx = Math.floor(j / Math.max(lineLen - 1, 1) * (GRADIENT_COLORS.length - 1));
+                const color = GRADIENT_COLORS[colorIdx];
+                coloredLine += color.bold(trimmedLine[j]);
+            }
+            console.log(coloredLine);
         }
     });
 
