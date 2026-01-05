@@ -1,0 +1,47 @@
+active_providers:
+  - anthropic
+  - openai
+  - gemini
+providers:
+  anthropic:
+    type: anthropic
+    model: claude-sonnet-4-5-20250929
+  openai:
+    type: openai
+    model: gpt-4o
+  gemini:
+    type: gemini
+    model: gemini-1.5-pro
+  grok:
+    type: openai_compatible
+    model: grok-4
+    api_key: ''
+    base_url: https://api.x.ai/v1
+flows:
+  ideation:
+    name: Ideation
+    description: Iteratively refine an idea with multi-agent debate.
+    max_rounds: 2
+    prompts:
+      round_1: >-
+        Create a series of questions a chat bot can have when acting as an AI
+        SDLC consultant. Provide questions that shows expertise, are short, have
+        for each possible answers to pick from, have a midpoint recap, ask their
+        email at the end and provide next steps options at the end. The goal is
+        to generate leads for the sales people. It should not be too long less
+        than two minutes overall.
+      refinement: >-
+        Read the other llm outputs and improve your own, create a v2.md, and
+        take the best from each into your next version.
+  audit:
+    name: Code Audit
+    description: Find bugs and security flaws.
+    max_rounds: 3
+    prompts:
+      round_1: >-
+        You are a senior security engineer. Analyze the attached code for
+        vulnerabilities, logical errors, and smell. Be ruthless.
+      refinement: >-
+        Review the findings of the other auditors. Did you miss anything they
+        found? Verify their claims. Output a finalized, unified list of critical
+        issues.
