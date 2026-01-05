@@ -5,7 +5,7 @@ import shutil
 
 from rich.console import Console
 
-from ..core.types import AuthMethod, JanusConfig, ProviderConfig, ProviderType
+from ..core.types import AuthMethod, ConclaveConfig, ProviderConfig, ProviderType
 from .anthropic import AnthropicProvider
 from .base import Provider
 from .claude_cli import ClaudeCliProvider
@@ -37,7 +37,7 @@ def _resolve_anthropic_auth_method(config: ProviderConfig) -> AuthMethod:
     return AuthMethod.API_KEY
 
 
-def create_providers(config: JanusConfig) -> list[Provider]:
+def create_providers(config: ConclaveConfig) -> list[Provider]:
     """Create provider instances based on configuration."""
     providers: list[Provider] = []
 

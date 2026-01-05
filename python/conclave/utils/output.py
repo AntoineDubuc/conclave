@@ -16,7 +16,7 @@ class RunContext:
 def create_run_context() -> RunContext:
     """Create a new run context with unique ID and output directory."""
     run_id = str(uuid.uuid4()).split("-")[0]
-    run_dir = Path.cwd() / ".janus" / "runs" / run_id
+    run_dir = Path.cwd() / ".conclave" / "runs" / run_id
     return RunContext(run_id=run_id, run_dir=run_dir)
 
 

@@ -1,8 +1,8 @@
-# Janus Chat Room - Feature Brainstorm Transcript
+# Conclave Chat Room - Feature Brainstorm Transcript
 
 **Date:** January 4, 2025
 **Models:** Anthropic (Claude), OpenAI (GPT), Gemini
-**Topic:** Next innovative feature for Janus
+**Topic:** Next innovative feature for Conclave
 **Rounds:** 3 (initial → @mention follow-up → /expand)
 
 ---
@@ -10,7 +10,7 @@
 ## Round 1: Initial Brainstorm
 
 ### User
-> You are brainstorming features for Janus, a CLI tool that orchestrates multi-LLM collaboration. It currently has: batch flows (basic round-robin, leading with synthesis), and interactive chat rooms. What should be the next innovative feature?
+> You are brainstorming features for Conclave, a CLI tool that orchestrates multi-LLM collaboration. It currently has: batch flows (basic round-robin, leading with synthesis), and interactive chat rooms. What should be the next innovative feature?
 
 ---
 
@@ -26,13 +26,13 @@ What angles are @OpenAI and @Gemini seeing?
 
 ### OpenAI (GPT)
 
-Add an **"argument graph + adjudication" mode**: Janus extracts claims, assumptions, and evidence from each model into a shared graph, then runs targeted cross-examination prompts to resolve conflicts and quantify uncertainty (with citations back to each turn). This builds on your synthesis flow by making disagreement explicit and actionable, not just averaged. It also enables a `janus verify` step that produces a decision plus a traceable rationale and "what would change my mind" queries.
+Add an **"argument graph + adjudication" mode**: Conclave extracts claims, assumptions, and evidence from each model into a shared graph, then runs targeted cross-examination prompts to resolve conflicts and quantify uncertainty (with citations back to each turn). This builds on your synthesis flow by making disagreement explicit and actionable, not just averaged. It also enables a `conclave verify` step that produces a decision plus a traceable rationale and "what would change my mind" queries.
 
 ---
 
 ### Gemini
 
-I think Janus could benefit from a feature that allows users to **define custom routing logic** for batch flows. Instead of just round-robin, users could specify rules based on the content of the text, like "@Anthropic, your model is best for creative tasks, so route creative prompts to it". This would enable more intelligent collaboration.
+I think Conclave could benefit from a feature that allows users to **define custom routing logic** for batch flows. Instead of just round-robin, users could specify rules based on the content of the text, like "@Anthropic, your model is best for creative tasks, so route creative prompts to it". This would enable more intelligent collaboration.
 
 ---
 
@@ -49,7 +49,7 @@ Here's how I'd approach it technically:
 
 **Structured output per model:** Each model responds with JSON containing `{position: "agree"|"disagree"|"nuanced", confidence: 0-1, key_claims: [...], rebuttals_to: {...}}`. This forces explicit stances rather than hedging prose.
 
-**Consensus detection:** After each round, Janus parses these structured outputs and computes agreement matrices. If >75% converge on a position with high confidence, that branch closes. Persistent disagreements get flagged for deeper examination.
+**Consensus detection:** After each round, Conclave parses these structured outputs and computes agreement matrices. If >75% converge on a position with high confidence, that branch closes. Persistent disagreements get flagged for deeper examination.
 
 **Arbiter synthesis:** A designated model (or rotating role) receives the full argument graph and produces a final verdict with explicit minority opinion acknowledgment—like a court ruling with dissents.
 
@@ -85,7 +85,7 @@ Then add a "consensus builder" round where dissenting models must propose the sm
 
 ### Anthropic (Claude) - Expanded
 
-#### Voting & Consensus Mechanics for Janus Debate Mode
+#### Voting & Consensus Mechanics for Conclave Debate Mode
 
 **1. Structured Output Schema**
 
@@ -110,7 +110,7 @@ dependencies:
 
 **2. Pairwise Agreement Computation**
 
-After each round, Janus builds an agreement matrix:
+After each round, Conclave builds an agreement matrix:
 
 - **Claim equivalence detection:** Use embedding similarity (cosine > 0.85) or an LLM judge to determine when two models are making the same claim in different words
 - **Agreement scoring:** `agreement(A, B) = Σ (shared_claims × min(conf_A, conf_B)) / total_claims`
@@ -145,10 +145,10 @@ Output follows a judicial format:
 - **Dissents** - Minority positions with strongest arguments
 - **Confidence Assessment** - Overall confidence + "what would change this verdict"
 
-**6. Implementation in Janus**
+**6. Implementation in Conclave**
 
 ```python
-# janus/flows/debate/engine.py
+# conclave/flows/debate/engine.py
 class DebateEngine:
     def run(self, topic: str, positions: list[str], rounds: int = 3):
         # Round 1: Position assignment and initial arguments
@@ -212,4 +212,4 @@ class DebateEngine:
 
 ---
 
-*Generated with `janus chat -m anthropic -m openai -m gemini`*
+*Generated with `conclave chat -m anthropic -m openai -m gemini`*

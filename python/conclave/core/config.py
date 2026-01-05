@@ -1,39 +1,39 @@
-"""Configuration management for Janus."""
+"""Configuration management for Conclave."""
 
 from pathlib import Path
 
 import yaml
 from rich.console import Console
 
-from .types import DEFAULT_CONFIG, JanusConfig, FlowConfig
+from .types import DEFAULT_CONFIG, ConclaveConfig, FlowConfig
 
 console = Console()
 
-CONFIG_FILENAME = "janus.config.yaml"
+CONFIG_FILENAME = "conclave.config.yaml"
 
 
 class ConfigManager:
-    """Manages Janus configuration - local-first approach."""
+    """Manages Conclave configuration - local-first approach."""
 
     def __init__(self):
         self.config_path = Path.cwd() / CONFIG_FILENAME
         self.config = self._load_config()
 
-    def _load_config(self) -> JanusConfig:
+    def _load_config(self) -> ConclaveConfig:
         """Load config from local file or use defaults."""
         if self.config_path.exists():
             console.print(f"[dim]Loaded config from: {self.config_path}[/dim]")
             return self._parse_config_file()
         return DEFAULT_CONFIG
 
-    def _parse_config_file(self) -> JanusConfig:
+    def _parse_config_file(self) -> ConclaveConfig:
         """Parse and validate config file."""
         try:
             with open(self.config_path) as f:
                 raw = yaml.safe_load(f)
 
             # Merge with defaults to ensure new providers/flows appear
-            config = JanusConfig.model_validate(raw)
+            config = ConclaveConfig.model_validate(raw)
 
             # Deep merge providers
             merged_providers = {**DEFAULT_CONFIG.providers, **config.providers}
@@ -44,7 +44,7 @@ class ConfigManager:
             console.print(f"[yellow]Warning: Config file invalid, using defaults. {e}[/yellow]")
             return DEFAULT_CONFIG
 
-    def get_config(self) -> JanusConfig:
+    def get_config(self) -> ConclaveConfig:
         """Get the current configuration."""
         return self.config
 
@@ -52,7 +52,7 @@ class ConfigManager:
         """Get a specific flow by name."""
         return self.config.flows.get(name)
 
-    def save_config(self, config: JanusConfig | None = None) -> None:
+    def save_config(self, config: ConclaveConfig | None = None) -> None:
         """Save configuration to file."""
         if config:
             self.config = config

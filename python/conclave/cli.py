@@ -1,4 +1,4 @@
-"""Janus CLI entry point."""
+"""Conclave CLI entry point."""
 
 import asyncio
 import os
@@ -55,7 +55,7 @@ KNOWN_MODELS = {
 @click.version_option(version="0.1.0")
 @click.pass_context
 def main(ctx):
-    """Janus - Multi-LLM collaboration to harvest unique insights."""
+    """Conclave - Multi-LLM collaboration to harvest unique insights."""
     if ctx.invoked_subcommand is None:
         # No command given - show banner and help
         print_banner(console)
@@ -239,7 +239,7 @@ def new_flow():
     config_manager = ConfigManager()
     config = config_manager.get_config()
 
-    console.print("\n[bold]--- Janus Flow Wizard ---[/bold]\n")
+    console.print("\n[bold]--- Conclave Flow Wizard ---[/bold]\n")
 
     # Get flow details
     name = Prompt.ask("Flow name (e.g., 'code-audit')")
@@ -321,7 +321,7 @@ def auth_claude():
 
     if api_key and not is_placeholder:
         console.print("[yellow]Warning: ANTHROPIC_API_KEY is present in environment.[/yellow]")
-        console.print("Janus prioritizes this over Claude Code CLI.\n")
+        console.print("Conclave prioritizes this over Claude Code CLI.\n")
 
     # Check Claude CLI status
     console.print("Checking Claude Code status...")
@@ -360,7 +360,7 @@ def auth_claude():
         console.print("1. Open a new terminal window")
         console.print("2. Run: [bold]claude[/bold]")
         console.print("3. Follow the authentication flow")
-        console.print("4. Run [bold]janus auth-claude[/bold] again")
+        console.print("4. Run [bold]conclave auth-claude[/bold] again")
 
 
 @main.command()
@@ -392,7 +392,7 @@ def chat(models: tuple[str], session_file: str | None):
     providers = create_providers(config)
 
     if not providers:
-        console.print("[red]No providers available. Run `janus doctor` to check.[/red]")
+        console.print("[red]No providers available. Run `conclave doctor` to check.[/red]")
         raise SystemExit(1)
 
     # Load existing session if specified

@@ -16,7 +16,7 @@ const program = new Command();
 const configManager = new ConfigManager();
 
 // Check if this is first run (no local config file exists in cwd)
-const LOCAL_CONFIG_FILE = path.join(process.cwd(), 'janus.config.yaml');
+const LOCAL_CONFIG_FILE = path.join(process.cwd(), 'conclave.config.yaml');
 
 async function checkFirstRun(): Promise<boolean> {
     return !fs.existsSync(LOCAL_CONFIG_FILE);
@@ -34,8 +34,8 @@ async function main() {
     await configManager.ensureConfig();
 
     program
-        .name('janus')
-        .description('Janus - Multi-LLM collaboration to harvest unique insights')
+        .name('conclave')
+        .description('Conclave - Multi-LLM collaboration to harvest unique insights')
         .version('0.1.0')
         .action(() => {
             // No command given - show banner and help

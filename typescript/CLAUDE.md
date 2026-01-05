@@ -1,4 +1,4 @@
-# Janus
+# Conclave
 
 Multi-LLM collaboration CLI. Harvests unique insights from each model through structured flows.
 
@@ -80,7 +80,7 @@ export const metadata = {
 
 ## Configuration
 
-Config: `./janus.config.yaml` (local to project)
+Config: `./conclave.config.yaml` (local to project)
 
 ```yaml
 active_providers: [anthropic, openai, gemini]
@@ -103,16 +103,16 @@ flows:
 ## Commands
 
 ```bash
-npx janus run <flow> <input.md>     # Run a flow
-npx janus run flow input.md -l openai  # Specify leader
-npx janus list                      # List flows
-npx janus doctor                    # Check providers
-npx janus init                      # Setup wizard
+npx conclave run <flow> <input.md>     # Run a flow
+npx conclave run flow input.md -l openai  # Specify leader
+npx conclave list                      # List flows
+npx conclave doctor                    # Check providers
+npx conclave init                      # Setup wizard
 ```
 
 ## Key Patterns
 
-- **Local-first:** Config in `./janus.config.yaml`, outputs in `./.janus/runs/`
+- **Local-first:** Config in `./conclave.config.yaml`, outputs in `./.conclave/runs/`
 - **Composition over inheritance:** Flows use utils via import, not base class
 - **Self-contained flows:** Each flow folder has everything it needs
 - **Provider factory:** Auth method routing (CLI vs API key)

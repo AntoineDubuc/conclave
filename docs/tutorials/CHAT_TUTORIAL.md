@@ -1,6 +1,6 @@
 # Tutorial: Interactive Chat Room
 
-**Use Case: Brainstorming Janus's Next Feature**
+**Use Case: Brainstorming Conclave's Next Feature**
 
 The chat room lets you have real-time discussions with multiple AI models, all sharing context. Unlike batch flows that produce files, chat is interactive and conversational.
 
@@ -77,29 +77,29 @@ Gemini:   "Realm's lazy loading helps with large datasets..."
 
 ```bash
 # Start chat with all configured models
-janus chat
+conclave chat
 
 # Start with specific models only
-janus chat -m anthropic -m openai
+conclave chat -m anthropic -m openai
 
 # Resume a previous session
-janus chat -s my_session.json
+conclave chat -s my_session.json
 ```
 
 ---
 
-## Real Example: Brainstorming Janus Features
+## Real Example: Brainstorming Conclave Features
 
-Let's use the chat room to brainstorm the next feature for Janus itself.
+Let's use the chat room to brainstorm the next feature for Conclave itself.
 
 ### Starting the Session
 
 ```bash
-janus chat -m anthropic -m openai -m gemini
+conclave chat -m anthropic -m openai -m gemini
 ```
 
 ```
-━━━ Janus Chat Room ━━━
+━━━ Conclave Chat Room ━━━
 Models: Anthropic (CLI), OpenAI, Gemini
 Type /help for commands, /quit to exit
 ```
@@ -107,7 +107,7 @@ Type /help for commands, /quit to exit
 ### Round 1: Initial Question
 
 ```
-You: What should be the next innovative feature for Janus?
+You: What should be the next innovative feature for Conclave?
 ```
 
 All three models respond with brief 2-4 sentence answers:
@@ -123,14 +123,14 @@ All three models respond with brief 2-4 sentence answers:
 ╰───────────────────────────────────────────────────────────────╯
 
 ╭─────────────────────────── OpenAI ────────────────────────────╮
-│ Add an "argument graph + adjudication" mode: Janus extracts   │
+│ Add an "argument graph + adjudication" mode: Conclave extracts   │
 │ claims, assumptions, and evidence from each model into a      │
 │ shared graph, then runs targeted cross-examination prompts    │
 │ to resolve conflicts and quantify uncertainty.                │
 ╰───────────────────────────────────────────────────────────────╯
 
 ╭─────────────────────────── Gemini ────────────────────────────╮
-│ I think Janus could benefit from custom routing logic for     │
+│ I think Conclave could benefit from custom routing logic for     │
 │ batch flows. Instead of just round-robin, users could specify │
 │ rules based on content, like "route creative prompts to       │
 │ Anthropic."                                                   │
@@ -154,7 +154,7 @@ Only Claude responds this time:
 │ **Structured output per model:** Each responds with JSON      │
 │ containing position, confidence, key_claims, and rebuttals.   │
 │                                                               │
-│ **Consensus detection:** After each round, Janus computes     │
+│ **Consensus detection:** After each round, Conclave computes     │
 │ agreement matrices. If >75% converge with high confidence,    │
 │ that branch closes.                                           │
 │                                                               │
@@ -209,13 +209,13 @@ Save your conversation for later:
 
 ```
 You: /save feature-brainstorm
-Saved to: ~/.janus/chat_sessions/feature-brainstorm.json
+Saved to: ~/.conclave/chat_sessions/feature-brainstorm.json
 ```
 
 Resume later:
 
 ```bash
-janus chat -s feature-brainstorm.json
+conclave chat -s feature-brainstorm.json
 ```
 
 ---
@@ -248,11 +248,11 @@ Interesting brainstorms are worth preserving. Use `/save` with descriptive names
 
 | Use Case | How to Run |
 |----------|------------|
-| Feature brainstorming | `janus chat` - open discussion |
-| Code review discussion | `janus chat -m anthropic -m openai` - security focus |
-| Architecture decisions | `janus chat` - get multiple perspectives |
-| Debugging strategies | `janus chat` - different approaches |
-| API design feedback | `janus chat` - pros/cons from each |
+| Feature brainstorming | `conclave chat` - open discussion |
+| Code review discussion | `conclave chat -m anthropic -m openai` - security focus |
+| Architecture decisions | `conclave chat` - get multiple perspectives |
+| Debugging strategies | `conclave chat` - different approaches |
+| API design feedback | `conclave chat` - pros/cons from each |
 
 ---
 
@@ -269,7 +269,7 @@ Interesting brainstorms are worth preserving. Use `/save` with descriptive names
 
 ## Full Transcript Example
 
-See [CHAT_TRANSCRIPT_EXAMPLE.md](../CHAT_TRANSCRIPT_EXAMPLE.md) for a complete 3-round session where models brainstorm Janus features including structured debate mode, argument graphs, and consensus systems.
+See [CHAT_TRANSCRIPT_EXAMPLE.md](../CHAT_TRANSCRIPT_EXAMPLE.md) for a complete 3-round session where models brainstorm Conclave features including structured debate mode, argument graphs, and consensus systems.
 
 ---
 

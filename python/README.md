@@ -1,4 +1,4 @@
-# Janus
+# Conclave
 
 Multi-LLM collaboration CLI. Harvests unique insights from each model through structured flows.
 
@@ -11,10 +11,10 @@ pip install -e .
 ## Usage
 
 ```bash
-janus run basic-ideator input.md
-janus run leading-ideator input.md --leader openai
-janus list
-janus doctor
+conclave run basic-ideator input.md
+conclave run leading-ideator input.md --leader openai
+conclave list
+conclave doctor
 ```
 
 ## Flows
@@ -25,7 +25,7 @@ janus doctor
 
 ## Configuration
 
-Create `janus.config.yaml` in your project:
+Create `conclave.config.yaml` in your project:
 
 ```yaml
 active_providers:

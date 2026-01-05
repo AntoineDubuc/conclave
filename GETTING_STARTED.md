@@ -1,6 +1,6 @@
-# Getting Started with Janus
+# Getting Started with Conclave
 
-This tutorial will walk you through setting up Janus and running your first multi-LLM collaboration session.
+This tutorial will walk you through setting up Conclave and running your first multi-LLM collaboration session.
 
 ---
 
@@ -25,7 +25,7 @@ The guides above include:
 
 ## What You'll Learn
 
-1. Installing Janus
+1. Installing Conclave
 2. Setting up authentication (API keys or Claude subscription)
 3. Using Claude Code with your Max/Pro subscription (no API costs!)
 4. Running your first flow
@@ -57,11 +57,11 @@ source venv/bin/activate  # macOS/Linux
 # or
 venv\Scripts\activate     # Windows
 
-# Install Janus
+# Install Conclave
 pip install -e .
 
 # Verify installation
-janus --version
+conclave --version
 ```
 
 ### Option B: TypeScript
@@ -72,14 +72,14 @@ npm install
 npm run build
 npm link
 
-janus --version
+conclave --version
 ```
 
 ---
 
 ## Step 2: Authentication Options
 
-Janus supports two ways to authenticate with AI providers:
+Conclave supports two ways to authenticate with AI providers:
 
 | Method | Best For | Cost |
 |--------|----------|------|
@@ -92,13 +92,13 @@ You can mix both methods - for example, use your Claude subscription for Anthrop
 
 ## Step 3: Using Claude with Your Pro/Max Subscription (Recommended)
 
-If you have a Claude Pro ($20/month) or Max ($100/month) subscription, you can use Claude in Janus **without any additional API costs**. This works through Claude Code, Anthropic's official CLI tool.
+If you have a Claude Pro ($20/month) or Max ($100/month) subscription, you can use Claude in Conclave **without any additional API costs**. This works through Claude Code, Anthropic's official CLI tool.
 
 ### Why Use Claude Code?
 
 - **No API charges** - Uses your existing subscription
 - **Same models** - Access to Claude Opus, Sonnet, and Haiku
-- **Auto-detection** - Janus automatically uses CLI when available
+- **Auto-detection** - Conclave automatically uses CLI when available
 
 ### Step 3.1: Install Claude Code
 
@@ -152,12 +152,12 @@ claude -p "Say hello"
 
 You should see Claude respond. If you get an error, see troubleshooting below.
 
-### Step 3.4: Verify Janus Detects Claude Code
+### Step 3.4: Verify Conclave Detects Claude Code
 
-Run the Janus auth check:
+Run the Conclave auth check:
 
 ```bash
-janus auth-claude
+conclave auth-claude
 ```
 
 Expected output:
@@ -171,11 +171,11 @@ Claude CLI is accessible and responding.
 
 ### Step 3.5: How Auto-Detection Works
 
-Janus automatically chooses the best authentication method for Anthropic:
+Conclave automatically chooses the best authentication method for Anthropic:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Janus Auth Priority                      │
+│                    Conclave Auth Priority                      │
 ├─────────────────────────────────────────────────────────────┤
 │ 1. ANTHROPIC_API_KEY environment variable (if set)         │
 │    ↓ (if not set or placeholder)                           │
@@ -188,7 +188,7 @@ Janus automatically chooses the best authentication method for Anthropic:
 To **force** Claude Code CLI even if you have an API key:
 
 ```yaml
-# In janus.config.yaml
+# In conclave.config.yaml
 providers:
   anthropic:
     type: anthropic
@@ -201,7 +201,7 @@ providers:
 Run the health check to see all providers:
 
 ```bash
-janus doctor
+conclave doctor
 ```
 
 When Claude Code is working:
@@ -250,15 +250,15 @@ claude --version
 
 #### "ANTHROPIC_API_KEY is present in environment"
 
-You have both an API key and Claude Code. Janus will use the API key by default. To use Claude Code instead:
+You have both an API key and Claude Code. Conclave will use the API key by default. To use Claude Code instead:
 
 ```bash
 # Option 1: Unset the API key temporarily
 unset ANTHROPIC_API_KEY
-janus run basic-ideator my-idea.md
+conclave run basic-ideator my-idea.md
 
 # Option 2: Force CLI in config
-# Edit janus.config.yaml:
+# Edit conclave.config.yaml:
 # providers:
 #   anthropic:
 #     auth_method: cli
@@ -317,7 +317,7 @@ $env:GEMINI_API_KEY = "AI..."
 ### Verify All Providers
 
 ```bash
-janus doctor
+conclave doctor
 ```
 
 ```
@@ -359,7 +359,7 @@ Questions I need help with:
 ### Run the Basic Ideator Flow
 
 ```bash
-janus run basic-ideator my-idea.md
+conclave run basic-ideator my-idea.md
 ```
 
 ### Watch the Magic Happen
@@ -384,17 +384,17 @@ Pattern: All models respond independently, then refine based on peer feedback.
 [OpenAI] Reviewing peers and refining...
 [Gemini] Reviewing peers and refining...
 
-Output saved to: .janus/runs/20250104_153022/
+Output saved to: .conclave/runs/20250104_153022/
 ```
 
 ---
 
 ## Step 6: Understanding the Output
 
-Janus saves all outputs to `.janus/runs/<timestamp>/`:
+Conclave saves all outputs to `.conclave/runs/<timestamp>/`:
 
 ```
-.janus/runs/20250104_153022/
+.conclave/runs/20250104_153022/
 ├── anthropic.v1.md    # Claude's Round 1 response
 ├── anthropic.v2.md    # Claude's refined response
 ├── openai.v1.md       # GPT's Round 1 response
@@ -422,7 +422,7 @@ Janus saves all outputs to `.janus/runs/<timestamp>/`:
 ### List Available Flows
 
 ```bash
-janus list
+conclave list
 ```
 
 ```
@@ -446,7 +446,7 @@ Available Flows:
 The leading flow has one model act as the "architect" who synthesizes everyone's ideas:
 
 ```bash
-janus run leading-ideator my-idea.md --leader openai
+conclave run leading-ideator my-idea.md --leader openai
 ```
 
 ### Try the Audit Flow
@@ -454,7 +454,7 @@ janus run leading-ideator my-idea.md --leader openai
 For code review, create a file with code to analyze:
 
 ```bash
-janus run audit my-code.md
+conclave run audit my-code.md
 ```
 
 ---
@@ -464,11 +464,11 @@ janus run audit my-code.md
 ### Interactive Wizard
 
 ```bash
-janus new-flow
+conclave new-flow
 ```
 
 ```
---- Janus Flow Wizard ---
+--- Conclave Flow Wizard ---
 
 Flow name (e.g., 'code-audit'): tech-debate
 Description: Models debate technical decisions
@@ -485,7 +485,7 @@ Flow 'tech-debate' saved successfully!
 ### Run Your Custom Flow
 
 ```bash
-janus run tech-debate decision.md
+conclave run tech-debate decision.md
 ```
 
 ---
@@ -521,7 +521,7 @@ Make me an API
 More rounds = more refinement, but diminishing returns after 3-4:
 
 ```yaml
-# In janus.config.yaml
+# In conclave.config.yaml
 flows:
   my-flow:
     max_rounds: 4  # Increase for complex problems
@@ -531,21 +531,21 @@ flows:
 
 ## Cost Comparison
 
-Using Janus with a typical 3-round flow on a medium-length document:
+Using Conclave with a typical 3-round flow on a medium-length document:
 
 | Setup | Claude Cost | Other Providers |
 |-------|-------------|-----------------|
 | Claude Code (Pro/Max) | $0 (included) | API costs apply |
 | Anthropic API | ~$0.50-2.00 per run | API costs apply |
 
-If you run Janus frequently, the Claude Pro subscription ($20/month) pays for itself after ~10-40 runs.
+If you run Conclave frequently, the Claude Pro subscription ($20/month) pays for itself after ~10-40 runs.
 
 ---
 
 ## Quick Reference: Auth Methods
 
 ```yaml
-# janus.config.yaml
+# conclave.config.yaml
 
 providers:
   anthropic:
@@ -578,12 +578,12 @@ providers:
 ### "Provider X failed to generate response"
 
 - Check your API key is set correctly
-- Run `janus doctor` to verify connectivity
+- Run `conclave doctor` to verify connectivity
 - Check the provider's status page for outages
 
 ### "No providers configured"
 
-Run `janus init` to set up your first provider, or create `janus.config.yaml`:
+Run `conclave init` to set up your first provider, or create `conclave.config.yaml`:
 
 ```yaml
 active_providers:
@@ -604,8 +604,8 @@ See [Step 3: Using Claude with Your Pro/Max Subscription](#step-3-using-claude-w
 
 ## Next Steps
 
-1. **Explore the outputs** - Read through `.janus/runs/` to see how models interact
-2. **Customize prompts** - Edit `janus.config.yaml` to tune model behavior
+1. **Explore the outputs** - Read through `.conclave/runs/` to see how models interact
+2. **Customize prompts** - Edit `conclave.config.yaml` to tune model behavior
 3. **Add more providers** - The more diverse perspectives, the better results
 4. **Create specialized flows** - Build flows for your specific use cases
 
@@ -613,10 +613,10 @@ See [Step 3: Using Claude with Your Pro/Max Subscription](#step-3-using-claude-w
 
 ## Getting Help
 
-- Run `janus --help` for command reference
-- Check individual command help: `janus run --help`
-- Run `janus auth-claude` to debug Claude Code issues
-- Run `janus doctor` to check all provider connectivity
+- Run `conclave --help` for command reference
+- Check individual command help: `conclave run --help`
+- Run `conclave auth-claude` to debug Claude Code issues
+- Run `conclave doctor` to check all provider connectivity
 - Review the README for architecture details
 
 Happy collaborating!

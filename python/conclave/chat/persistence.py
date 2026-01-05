@@ -5,7 +5,7 @@ from pathlib import Path
 
 from .session import ChatSession
 
-SESSIONS_DIR = Path.cwd() / ".janus" / "chat_sessions"
+SESSIONS_DIR = Path.cwd() / ".conclave" / "chat_sessions"
 
 
 def save_session(session: ChatSession, filename: str | None = None) -> Path:

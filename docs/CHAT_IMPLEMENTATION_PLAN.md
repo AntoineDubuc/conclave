@@ -2,11 +2,11 @@
 
 ## Architectural Separation
 
-The chat feature is **completely isolated** from existing Janus functionality:
+The chat feature is **completely isolated** from existing Conclave functionality:
 
 ```
-janus/
-├── cli.py              # Add ONE new command: `janus chat`
+conclave/
+├── cli.py              # Add ONE new command: `conclave chat`
 ├── core/
 │   └── types.py        # Add chat-specific Pydantic models (additive only)
 ├── providers/          # UNCHANGED - reuse existing providers as-is
@@ -32,7 +32,7 @@ janus/
 |---------|------------------|------------|
 | **Paradigm** | Batch: submit → rounds → files | Interactive: real-time loop |
 | **Input** | Markdown file | Keyboard input |
-| **Output** | `.janus/runs/*.md` files | Terminal display |
+| **Output** | `.conclave/runs/*.md` files | Terminal display |
 | **State** | Stateless per run | Persistent session |
 | **Providers** | ✓ Reused as-is | ✓ Reused as-is |
 
@@ -40,7 +40,7 @@ janus/
 
 **Only 2 existing files are modified:**
 
-1. **`janus/core/types.py`** - Add new models (additive, no breaking changes):
+1. **`conclave/core/types.py`** - Add new models (additive, no breaking changes):
    ```python
    # New additions only:
    class MessageRole(str, Enum): ...
@@ -48,14 +48,14 @@ janus/
    class ChatConfig(BaseModel): ...
    ```
 
-2. **`janus/cli.py`** - Add one command:
+2. **`conclave/cli.py`** - Add one command:
    ```python
    @main.command()
    def chat(...):
        """Start interactive multi-LLM chat room."""
    ```
 
-**Everything else is NEW files** in `janus/chat/`.
+**Everything else is NEW files** in `conclave/chat/`.
 
 ---
 
@@ -64,20 +64,20 @@ janus/
 ### Phase 1: Foundation (Core Data + Basic Loop)
 
 **Files to create:**
-- `janus/chat/__init__.py`
-- `janus/chat/session.py`
-- `janus/chat/prompts.py`
-- `janus/chat/ui/__init__.py`
-- `janus/chat/ui/display.py`
+- `conclave/chat/__init__.py`
+- `conclave/chat/session.py`
+- `conclave/chat/prompts.py`
+- `conclave/chat/ui/__init__.py`
+- `conclave/chat/ui/display.py`
 
 **Files to modify:**
-- `janus/core/types.py` (add ChatMessage, ChatConfig)
-- `janus/cli.py` (add chat command)
+- `conclave/core/types.py` (add ChatMessage, ChatConfig)
+- `conclave/cli.py` (add chat command)
 
 **Deliverable:** Basic working chat - user types, all models respond.
 
 ```bash
-janus chat
+conclave chat
 > Hello, what's the best database for a habit tracker?
 [Anthropic] SQLite for mobile, Supabase for sync.
 [OpenAI] Agree. Firebase also works in Google ecosystem.
@@ -89,7 +89,7 @@ janus chat
 ### Phase 2: Commands
 
 **Files to create:**
-- `janus/chat/commands.py`
+- `conclave/chat/commands.py`
 
 **Commands implemented:**
 - `/help` - Show available commands
@@ -104,8 +104,8 @@ janus chat
 ### Phase 3: Targeting + @Mentions
 
 **Files to modify:**
-- `janus/chat/room.py` (add mention parsing)
-- `janus/chat/commands.py` (add /ask command)
+- `conclave/chat/room.py` (add mention parsing)
+- `conclave/chat/commands.py` (add /ask command)
 
 **Features:**
 - `@anthropic` in message → only Anthropic responds
@@ -118,7 +118,7 @@ janus chat
 ### Phase 4: Context Management
 
 **Files to create:**
-- `janus/chat/context.py`
+- `conclave/chat/context.py`
 
 **Features:**
 - Sliding window to fit context in token limits
@@ -132,13 +132,13 @@ janus chat
 ### Phase 5: Persistence
 
 **Files to create:**
-- `janus/chat/persistence.py`
+- `conclave/chat/persistence.py`
 
 **Files to modify:**
-- `janus/chat/commands.py` (add /save, /load)
+- `conclave/chat/commands.py` (add /save, /load)
 
 **Features:**
-- Save sessions to `.janus/chat_sessions/`
+- Save sessions to `.conclave/chat_sessions/`
 - Load and resume previous conversations
 - List saved sessions
 
@@ -149,8 +149,8 @@ janus chat
 ### Phase 6: Expand + Polish
 
 **Files to modify:**
-- `janus/chat/commands.py` (add /expand)
-- `janus/chat/prompts.py` (expand prompt)
+- `conclave/chat/commands.py` (add /expand)
+- `conclave/chat/prompts.py` (expand prompt)
 
 **Features:**
 - `/expand` gets detailed response to last message
@@ -192,7 +192,7 @@ janus chat
 
 ### Manual Testing Checklist
 
-- [ ] `janus chat` starts successfully
+- [ ] `conclave chat` starts successfully
 - [ ] Multiple models respond to messages
 - [ ] `/help` shows commands
 - [ ] `/quit` exits cleanly
@@ -220,7 +220,7 @@ tests/
 ## Rollback Strategy
 
 If issues arise, the chat feature can be completely removed by:
-1. Deleting `janus/chat/` directory
+1. Deleting `conclave/chat/` directory
 2. Removing chat models from `core/types.py`
 3. Removing chat command from `cli.py`
 

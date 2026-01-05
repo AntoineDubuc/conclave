@@ -50,7 +50,7 @@ export class ClaudeBinaryProvider implements Provider {
                     // But if we have *some* output, maybe we return that? 
                     // Usually code != 0 means hard failure.
                     console.error(`Claude CLI exited with code ${code}`);
-                    // We return the error string so Janus pipeline sees it as a failure response
+                    // We return the error string so Conclave pipeline sees it as a failure response
                     resolve(`[Error] Claude CLI failed (Exit ${code}): ${stderrData}`);
                 } else {
                     resolve(stdoutData.trim());

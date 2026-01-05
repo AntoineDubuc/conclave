@@ -1,6 +1,6 @@
-# Getting Started with Janus on Ubuntu/Debian
+# Getting Started with Conclave on Ubuntu/Debian
 
-This guide walks you through setting up Janus on Ubuntu 20.04+, Debian 11+, or other Debian-based distributions.
+This guide walks you through setting up Conclave on Ubuntu 20.04+, Debian 11+, or other Debian-based distributions.
 
 ---
 
@@ -79,11 +79,11 @@ node --version
 
 ---
 
-## Step 4: Install Janus
+## Step 4: Install Conclave
 
 ```bash
 # Navigate to the project
-cd /path/to/janus/python
+cd /path/to/conclave/python
 
 # Create a virtual environment
 python3 -m venv venv
@@ -98,17 +98,17 @@ source venv/bin/activate
 # Upgrade pip
 pip install --upgrade pip
 
-# Install Janus
+# Install Conclave
 pip install -e .
 
 # Verify installation
-janus --version
+conclave --version
 ```
 
 **Tip**: Add an alias to your `~/.bashrc` for easy activation:
 
 ```bash
-echo 'alias janus-env="source /path/to/janus/python/venv/bin/activate"' >> ~/.bashrc
+echo 'alias conclave-env="source /path/to/conclave/python/venv/bin/activate"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
@@ -160,8 +160,8 @@ claude
 # Quick test
 claude -p "Say hello"
 
-# Janus verification
-janus auth-claude
+# Conclave verification
+conclave auth-claude
 ```
 
 Expected output:
@@ -183,7 +183,7 @@ Claude CLI is accessible and responding.
 # Add to ~/.bashrc
 cat >> ~/.bashrc << 'EOF'
 
-# Janus API Keys
+# Conclave API Keys
 export OPENAI_API_KEY="sk-..."
 export GEMINI_API_KEY="AI..."
 export XAI_API_KEY="xai-..."
@@ -236,10 +236,10 @@ direnv allow
 
 ```bash
 # Make sure venv is activated
-source /path/to/janus/python/venv/bin/activate
+source /path/to/conclave/python/venv/bin/activate
 
 # Run health check
-janus doctor
+conclave doctor
 ```
 
 Expected output:
@@ -278,7 +278,7 @@ Questions:
 EOF
 
 # Run the collaboration
-janus run basic-ideator my-idea.md
+conclave run basic-ideator my-idea.md
 ```
 
 ---
@@ -309,11 +309,11 @@ npm install -g @anthropic-ai/claude-code
 Create a `.desktop` file for easy access:
 
 ```bash
-cat > ~/.local/share/applications/janus.desktop << 'EOF'
+cat > ~/.local/share/applications/conclave.desktop << 'EOF'
 [Desktop Entry]
-Name=Janus
+Name=Conclave
 Comment=Multi-LLM Collaboration CLI
-Exec=gnome-terminal -- bash -c "source /path/to/janus/python/venv/bin/activate && janus list; exec bash"
+Exec=gnome-terminal -- bash -c "source /path/to/conclave/python/venv/bin/activate && conclave list; exec bash"
 Icon=utilities-terminal
 Terminal=true
 Type=Application
@@ -323,20 +323,20 @@ EOF
 
 ### Systemd Service (for Servers)
 
-If you want to run Janus flows as a service:
+If you want to run Conclave flows as a service:
 
 ```bash
-sudo cat > /etc/systemd/system/janus-flow.service << 'EOF'
+sudo cat > /etc/systemd/system/conclave-flow.service << 'EOF'
 [Unit]
-Description=Janus Flow Runner
+Description=Conclave Flow Runner
 After=network.target
 
 [Service]
 Type=oneshot
 User=your-username
 WorkingDirectory=/path/to/your/project
-Environment="PATH=/path/to/janus/python/venv/bin:/usr/bin"
-ExecStart=/path/to/janus/python/venv/bin/janus run basic-ideator input.md
+Environment="PATH=/path/to/conclave/python/venv/bin:/usr/bin"
+ExecStart=/path/to/conclave/python/venv/bin/conclave run basic-ideator input.md
 
 [Install]
 WantedBy=multi-user.target
@@ -350,14 +350,14 @@ sudo systemctl daemon-reload
 
 ```bash
 # Start a tmux session
-tmux new -s janus
+tmux new -s conclave
 
 # Activate venv and run
-source /path/to/janus/python/venv/bin/activate
-janus run basic-ideator my-idea.md
+source /path/to/conclave/python/venv/bin/activate
+conclave run basic-ideator my-idea.md
 
 # Detach: Ctrl+B, then D
-# Reattach later: tmux attach -t janus
+# Reattach later: tmux attach -t conclave
 ```
 
 ---
@@ -423,7 +423,7 @@ pip install --upgrade certifi
 
 ```bash
 # Make sure you own the directory
-sudo chown -R $USER:$USER /path/to/janus/python
+sudo chown -R $USER:$USER /path/to/conclave/python
 
 # Recreate venv
 rm -rf venv
@@ -463,17 +463,17 @@ claude
 | Python 3 | `/usr/bin/python3` |
 | Node.js | `/usr/bin/node` |
 | npm global | `/usr/local/lib/node_modules/` or `~/.npm-global/` |
-| Janus venv | `/path/to/janus/python/venv/` |
-| Janus config | `./janus.config.yaml` |
-| Janus output | `./.janus/runs/` |
+| Conclave venv | `/path/to/conclave/python/venv/` |
+| Conclave config | `./conclave.config.yaml` |
+| Conclave output | `./.conclave/runs/` |
 
 ---
 
 ## Next Steps
 
 - Read the [main tutorial](../GETTING_STARTED.md) for usage details
-- Run `janus list` to see available flows
-- Run `janus new-flow` to create custom flows
-- Check `janus --help` for all commands
+- Run `conclave list` to see available flows
+- Run `conclave new-flow` to create custom flows
+- Check `conclave --help` for all commands
 
 Happy collaborating!

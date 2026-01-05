@@ -1,4 +1,4 @@
-"""Core types and schemas for Janus configuration."""
+"""Core types and schemas for Conclave configuration."""
 
 import uuid
 from datetime import datetime
@@ -103,8 +103,8 @@ class FlowConfig(BaseModel):
     prompts: FlowPrompts
 
 
-class JanusConfig(BaseModel):
-    """Root configuration for Janus."""
+class ConclaveConfig(BaseModel):
+    """Root configuration for Conclave."""
 
     active_providers: list[str]
     providers: dict[str, ProviderConfig]
@@ -112,7 +112,7 @@ class JanusConfig(BaseModel):
 
 
 # Default configuration
-DEFAULT_CONFIG = JanusConfig(
+DEFAULT_CONFIG = ConclaveConfig(
     active_providers=["anthropic", "openai", "gemini"],
     providers={
         "anthropic": ProviderConfig(

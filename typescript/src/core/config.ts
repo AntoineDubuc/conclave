@@ -2,13 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import chalk from 'chalk';
-import { JanusConfig, JanusConfigSchema, DEFAULT_CONFIG } from './types.js';
+import { ConclaveConfig, ConclaveConfigSchema, DEFAULT_CONFIG } from './types.js';
 
 // Local-first: config lives in the current working directory
-const LOCAL_CONFIG_FILE = 'janus.config.yaml';
+const LOCAL_CONFIG_FILE = 'conclave.config.yaml';
 
 export class ConfigManager {
-    private config: JanusConfig;
+    private config: ConclaveConfig;
     private loadedConfigPath: string;
 
     constructor() {
@@ -16,7 +16,7 @@ export class ConfigManager {
         this.config = this.loadConfig();
     }
 
-    private loadConfig(): JanusConfig {
+    private loadConfig(): ConclaveConfig {
         // Only use local config in current working directory
         const localConfig = path.join(process.cwd(), LOCAL_CONFIG_FILE);
         if (fs.existsSync(localConfig)) {
@@ -30,10 +30,10 @@ export class ConfigManager {
         return DEFAULT_CONFIG;
     }
 
-    private parseConfigFile(filePath: string): JanusConfig {
+    private parseConfigFile(filePath: string): ConclaveConfig {
         try {
             const raw = yaml.load(fs.readFileSync(filePath, 'utf-8'));
-            const parsed = JanusConfigSchema.safeParse(raw);
+            const parsed = ConclaveConfigSchema.safeParse(raw);
 
             if (!parsed.success) {
                 console.warn(`Warning: Config file ${filePath} is invalid, using defaults.`, parsed.error);
@@ -72,7 +72,7 @@ export class ConfigManager {
         return false;
     }
 
-    public async saveConfig(newConfig: JanusConfig) {
+    public async saveConfig(newConfig: ConclaveConfig) {
         if (!fs.existsSync(path.dirname(this.loadedConfigPath))) {
             fs.mkdirSync(path.dirname(this.loadedConfigPath), { recursive: true });
         }

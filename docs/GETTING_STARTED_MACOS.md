@@ -1,6 +1,6 @@
-# Getting Started with Janus on macOS
+# Getting Started with Conclave on macOS
 
-This guide walks you through setting up Janus on macOS (Intel or Apple Silicon).
+This guide walks you through setting up Conclave on macOS (Intel or Apple Silicon).
 
 ---
 
@@ -43,7 +43,7 @@ python3 --version
 
 ## Step 3: Install Node.js (for Claude Code)
 
-Even if you use the Python version of Janus, you need Node.js for Claude Code CLI.
+Even if you use the Python version of Conclave, you need Node.js for Claude Code CLI.
 
 ```bash
 # Install Node.js via Homebrew
@@ -56,11 +56,11 @@ npm --version
 
 ---
 
-## Step 4: Install Janus
+## Step 4: Install Conclave
 
 ```bash
 # Navigate to the project
-cd /path/to/janus/python
+cd /path/to/conclave/python
 
 # Create a virtual environment
 python3 -m venv venv
@@ -70,17 +70,17 @@ source venv/bin/activate
 
 # Your prompt should now show (venv)
 
-# Install Janus
+# Install Conclave
 pip install -e .
 
 # Verify installation
-janus --version
+conclave --version
 ```
 
 **Tip**: Add this alias to your `~/.zshrc` for easy activation:
 
 ```bash
-echo 'alias janus-env="source /path/to/janus/python/venv/bin/activate"' >> ~/.zshrc
+echo 'alias conclave-env="source /path/to/conclave/python/venv/bin/activate"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
@@ -119,8 +119,8 @@ This opens your default browser to authenticate:
 # Quick test
 claude -p "Say hello"
 
-# Janus verification
-janus auth-claude
+# Conclave verification
+conclave auth-claude
 ```
 
 Expected output:
@@ -175,10 +175,10 @@ source ~/.zshrc
 
 ```bash
 # Make sure venv is activated
-source /path/to/janus/python/venv/bin/activate
+source /path/to/conclave/python/venv/bin/activate
 
 # Run health check
-janus doctor
+conclave doctor
 ```
 
 Expected output:
@@ -217,7 +217,7 @@ Questions:
 EOF
 
 # Run the collaboration
-janus run basic-ideator my-idea.md
+conclave run basic-ideator my-idea.md
 ```
 
 ---
@@ -226,10 +226,10 @@ janus run basic-ideator my-idea.md
 
 ### Using iTerm2
 
-If you use iTerm2, you can create a profile for Janus:
+If you use iTerm2, you can create a profile for Conclave:
 1. Preferences > Profiles > + (new profile)
-2. Name: "Janus"
-3. Command: `/path/to/janus/python/venv/bin/python -m janus.cli`
+2. Name: "Conclave"
+3. Command: `/path/to/conclave/python/venv/bin/python -m conclave.cli`
 
 ### Spotlight Integration
 
@@ -237,13 +237,13 @@ Create a shell script for quick access:
 
 ```bash
 # Create script
-cat > /usr/local/bin/janus-run << 'EOF'
+cat > /usr/local/bin/conclave-run << 'EOF'
 #!/bin/bash
-source /path/to/janus/python/venv/bin/activate
-janus "$@"
+source /path/to/conclave/python/venv/bin/activate
+conclave "$@"
 EOF
 
-chmod +x /usr/local/bin/janus-run
+chmod +x /usr/local/bin/conclave-run
 ```
 
 ### Keychain for API Keys
@@ -262,12 +262,12 @@ export OPENAI_API_KEY=$(security find-generic-password -a "$USER" -s "OPENAI_API
 
 ## Troubleshooting
 
-### "command not found: janus"
+### "command not found: conclave"
 
 The virtual environment isn't activated:
 
 ```bash
-source /path/to/janus/python/venv/bin/activate
+source /path/to/conclave/python/venv/bin/activate
 ```
 
 ### "command not found: claude"
@@ -316,8 +316,8 @@ npm install -g @anthropic-ai/claude-code
 ## Next Steps
 
 - Read the [main tutorial](../GETTING_STARTED.md) for usage details
-- Run `janus list` to see available flows
-- Run `janus new-flow` to create custom flows
-- Check `janus --help` for all commands
+- Run `conclave list` to see available flows
+- Run `conclave new-flow` to create custom flows
+- Check `conclave --help` for all commands
 
 Happy collaborating!

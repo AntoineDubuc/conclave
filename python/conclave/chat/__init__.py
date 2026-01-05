@@ -1,4 +1,4 @@
-"""Janus interactive chat module."""
+"""Conclave interactive chat module."""
 
 from .room import ChatRoom
 from .session import ChatSession

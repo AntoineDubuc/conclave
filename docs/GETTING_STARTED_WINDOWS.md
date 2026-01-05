@@ -1,6 +1,6 @@
-# Getting Started with Janus on Windows
+# Getting Started with Conclave on Windows
 
-This guide walks you through setting up Janus on Windows 10 or Windows 11.
+This guide walks you through setting up Conclave on Windows 10 or Windows 11.
 
 ---
 
@@ -59,13 +59,13 @@ npm --version
 
 ---
 
-## Step 3: Install Janus
+## Step 3: Install Conclave
 
 ### Using Command Prompt
 
 ```cmd
 :: Navigate to the project
-cd C:\path\to\janus\python
+cd C:\path\to\conclave\python
 
 :: Create a virtual environment
 python -m venv venv
@@ -75,18 +75,18 @@ venv\Scripts\activate
 
 :: Your prompt should now show (venv)
 
-:: Install Janus
+:: Install Conclave
 pip install -e .
 
 :: Verify installation
-janus --version
+conclave --version
 ```
 
 ### Using PowerShell
 
 ```powershell
 # Navigate to the project
-cd C:\path\to\janus\python
+cd C:\path\to\conclave\python
 
 # Create a virtual environment
 python -m venv venv
@@ -97,11 +97,11 @@ python -m venv venv
 # If you get an execution policy error, run this first:
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-# Install Janus
+# Install Conclave
 pip install -e .
 
 # Verify installation
-janus --version
+conclave --version
 ```
 
 ---
@@ -143,8 +143,8 @@ This opens your default browser to authenticate:
 # Quick test
 claude -p "Say hello"
 
-# Janus verification (make sure venv is activated)
-janus auth-claude
+# Conclave verification (make sure venv is activated)
+conclave auth-claude
 ```
 
 Expected output:
@@ -199,11 +199,11 @@ XAI_API_KEY=xai-...
 
 ```powershell
 # Make sure venv is activated
-cd C:\path\to\janus\python
+cd C:\path\to\conclave\python
 .\venv\Scripts\Activate.ps1
 
 # Run health check
-janus doctor
+conclave doctor
 ```
 
 Expected output:
@@ -242,7 +242,7 @@ Questions:
 "@ | Out-File -FilePath my-idea.md -Encoding UTF8
 
 # Run the collaboration
-janus run basic-ideator my-idea.md
+conclave run basic-ideator my-idea.md
 ```
 
 ---
@@ -258,16 +258,16 @@ Install Windows Terminal from Microsoft Store for a better experience:
 
 ### Create a Batch File for Quick Access
 
-Create `janus.bat` in a folder that's in your PATH:
+Create `conclave.bat` in a folder that's in your PATH:
 
 ```batch
 @echo off
-cd /d C:\path\to\janus\python
+cd /d C:\path\to\conclave\python
 call venv\Scripts\activate.bat
-janus %*
+conclave %*
 ```
 
-Then you can run `janus` from anywhere.
+Then you can run `conclave` from anywhere.
 
 ### PowerShell Profile
 
@@ -281,14 +281,14 @@ $PROFILE
 notepad $PROFILE
 
 # Add this line:
-function Start-Janus {
-    cd C:\path\to\janus\python
+function Start-Conclave {
+    cd C:\path\to\conclave\python
     .\venv\Scripts\Activate.ps1
 }
-Set-Alias -Name jenv -Value Start-Janus
+Set-Alias -Name jenv -Value Start-Conclave
 ```
 
-Now type `jenv` to activate the Janus environment.
+Now type `jenv` to activate the Conclave environment.
 
 ### WSL Alternative
 
@@ -313,12 +313,12 @@ Python isn't in your PATH:
 1. Reinstall Python and check "Add Python to PATH"
 2. Or manually add: `C:\Users\<you>\AppData\Local\Programs\Python\Python311\` to PATH
 
-### "'janus' is not recognized"
+### "'conclave' is not recognized"
 
 The virtual environment isn't activated:
 
 ```powershell
-cd C:\path\to\janus\python
+cd C:\path\to\conclave\python
 .\venv\Scripts\Activate.ps1
 ```
 
@@ -359,7 +359,7 @@ New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name
 ### Antivirus Blocking
 
 Some antivirus software blocks Python or npm. Add exceptions for:
-- `C:\path\to\janus\python\venv\`
+- `C:\path\to\conclave\python\venv\`
 - `%APPDATA%\npm\`
 - `C:\Users\<you>\AppData\Local\Programs\Python\`
 
@@ -379,8 +379,8 @@ Some antivirus software blocks Python or npm. Add exceptions for:
 ## Next Steps
 
 - Read the [main tutorial](../GETTING_STARTED.md) for usage details
-- Run `janus list` to see available flows
-- Run `janus new-flow` to create custom flows
-- Check `janus --help` for all commands
+- Run `conclave list` to see available flows
+- Run `conclave new-flow` to create custom flows
+- Check `conclave --help` for all commands
 
 Happy collaborating!

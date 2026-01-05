@@ -1,4 +1,4 @@
-"""ASCII banner utilities for Janus CLI."""
+"""ASCII banner utilities for Conclave CLI."""
 
 import pyfiglet
 from rich.console import Console
@@ -15,7 +15,7 @@ GRADIENT_COLORS = [
 
 
 def print_banner(console: Console | None = None, subtitle: str | None = None) -> None:
-    """Print the Janus ASCII art banner with gradient colors.
+    """Print the Conclave ASCII art banner with gradient colors.
 
     Args:
         console: Rich console to print to. Creates new one if not provided.
@@ -25,7 +25,7 @@ def print_banner(console: Console | None = None, subtitle: str | None = None) ->
         console = Console()
 
     # Generate ASCII art (banner3 = the # style)
-    ascii_art = pyfiglet.figlet_format("JANUS", font="banner3")
+    ascii_art = pyfiglet.figlet_format("CONCLAVE", font="banner3")
     lines = ascii_art.split("\n")
 
     # Print with left-to-right gradient effect
@@ -54,4 +54,4 @@ def get_banner_text() -> str:
     Returns:
         The ASCII art banner as a string.
     """
-    return pyfiglet.figlet_format("JANUS", font="banner3")
+    return pyfiglet.figlet_format("CONCLAVE", font="banner3")

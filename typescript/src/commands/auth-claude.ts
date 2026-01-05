@@ -48,7 +48,7 @@ export async function authClaudeCommand() {
 
     if (apiKey && !isPlaceholder) {
         console.log(chalk.yellow('Warning: ANTHROPIC_API_KEY is present (.env).'));
-        console.log('Janus prioritizes this over Claude Code.');
+        console.log('Conclave prioritizes this over Claude Code.');
     }
 
     // 2. Check Claude CLI Status
@@ -90,7 +90,7 @@ export async function authClaudeCommand() {
     if (!isAuthenticated) {
         choices.push('How to Login? (Instructions)');
     }
-    choices.push('Test Connection (Janus Doctor)');
+    choices.push('Test Connection (Conclave Doctor)');
     choices.push('Exit');
 
     const { action } = await inquirer.prompt([{
@@ -105,8 +105,8 @@ export async function authClaudeCommand() {
         console.log('1. Open a new terminal window.');
         console.log('2. Run: ' + chalk.bold('claude'));
         console.log('3. Follow the authentication flow.');
-        console.log('4. Run ' + chalk.bold('janus auth-claude') + ' again.\n');
-    } else if (action === 'Test Connection (Janus Doctor)') {
+        console.log('4. Run ' + chalk.bold('conclave auth-claude') + ' again.\n');
+    } else if (action === 'Test Connection (Conclave Doctor)') {
         const { doctorCommand } = await import('./doctor.js');
         const { ConfigManager } = await import('../core/config.js');
         await doctorCommand(new ConfigManager());

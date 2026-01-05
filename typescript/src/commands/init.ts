@@ -3,7 +3,7 @@ import inquirer from 'inquirer';
 import { ConfigManager } from '../core/config.js';
 import { discoverProviders, displayDiscoveryResults, getAvailableProviderNames, ProviderDiscoveryResult } from '../core/provider-discovery.js';
 import { promptClaudeLogin, displayClaudeStatus } from '../core/claude-cli.js';
-import { JanusConfig } from '../core/types.js';
+import { ConclaveConfig } from '../core/types.js';
 
 const BANNER = `
      ██╗ █████╗ ███╗   ██╗██╗   ██╗███████╗
@@ -49,7 +49,7 @@ async function setupProvider(
                     console.log(chalk.green('\n✓ Successfully logged in to Claude!'));
                     return { configured: true, authMethod: 'cli' };
                 } else {
-                    console.log(chalk.yellow('\nLogin was not completed. You can try again later with: janus auth-claude'));
+                    console.log(chalk.yellow('\nLogin was not completed. You can try again later with: conclave auth-claude'));
                     return { configured: false, authMethod: 'none' };
                 }
             } else if (action === 'apikey') {
@@ -88,7 +88,7 @@ async function setupProvider(
                 console.log(chalk.cyan('\nTo install Claude Code CLI:'));
                 console.log(chalk.white('  npm install -g @anthropic-ai/claude-code'));
                 console.log(chalk.gray('\nAfter installing, run: claude'));
-                console.log(chalk.gray('Then re-run: janus init\n'));
+                console.log(chalk.gray('Then re-run: conclave init\n'));
                 return { configured: false, authMethod: 'none' };
             } else if (action === 'apikey') {
                 const { apiKey } = await inquirer.prompt([{
@@ -150,7 +150,7 @@ async function setupProvider(
             return { configured: false, authMethod: 'none' };
         } else if (action === 'open') {
             console.log(chalk.cyan(`\nGet your API key from: ${getKeyUrl}`));
-            console.log(chalk.gray('Then add it to your .env file and re-run: janus init\n'));
+            console.log(chalk.gray('Then add it to your .env file and re-run: conclave init\n'));
             return { configured: false, authMethod: 'none' };
         }
 
@@ -166,8 +166,8 @@ async function setupProvider(
 export async function initCommand(configManager: ConfigManager): Promise<void> {
     // Show banner
     console.log(chalk.cyan(BANNER));
-    console.log(chalk.bold('Welcome to Janus - The AI War Room\n'));
-    console.log(chalk.gray('Janus orchestrates debates between AI models to refine your ideas.\n'));
+    console.log(chalk.bold('Welcome to Conclave - The AI War Room\n'));
+    console.log(chalk.gray('Conclave orchestrates debates between AI models to refine your ideas.\n'));
 
     // Discover providers
     console.log(chalk.bold('Discovering available AI providers...\n'));
@@ -210,7 +210,7 @@ export async function initCommand(configManager: ConfigManager): Promise<void> {
 
     // Update config with discovered auth methods
     const config = configManager.getConfig();
-    const updatedConfig: JanusConfig = {
+    const updatedConfig: ConclaveConfig = {
         ...config,
         active_providers: configuredProviders
             .filter(p => p.authMethod !== 'none')
@@ -241,13 +241,13 @@ export async function initCommand(configManager: ConfigManager): Promise<void> {
         console.log(chalk.green(`✓ ${availableCount} providers configured. You're ready to run debates!\n`));
         console.log(chalk.white('Try it out:'));
         console.log(chalk.cyan('  echo "I want to build an app that..." > idea.md'));
-        console.log(chalk.cyan('  janus run ideation idea.md\n'));
+        console.log(chalk.cyan('  conclave run ideation idea.md\n'));
     } else if (availableCount === 1) {
-        console.log(chalk.yellow(`⚠ Only 1 provider configured. Janus works best with 2+ providers.\n`));
-        console.log(chalk.gray('Run "janus init" again after configuring more providers.\n'));
+        console.log(chalk.yellow(`⚠ Only 1 provider configured. Conclave works best with 2+ providers.\n`));
+        console.log(chalk.gray('Run "conclave init" again after configuring more providers.\n'));
     } else {
-        console.log(chalk.red('✗ No providers configured. Janus requires at least 2 providers.\n'));
-        console.log(chalk.gray('Run "janus init" again after setting up your API keys.\n'));
+        console.log(chalk.red('✗ No providers configured. Conclave requires at least 2 providers.\n'));
+        console.log(chalk.gray('Run "conclave init" again after setting up your API keys.\n'));
     }
 
     // Show configured providers summary

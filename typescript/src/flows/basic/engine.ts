@@ -4,7 +4,7 @@ import { Provider } from '../../providers/base.js';
 import { resolvePrompt, createRunContext, saveOutput, readInputFile } from '../../utils/index.js';
 import { getRefinementSystemPrompt } from './prompts.js';
 
-// Flow config type (matches what's in janus.config.yaml)
+// Flow config type (matches what's in conclave.config.yaml)
 interface FlowConfig {
     name: string;
     description?: string;

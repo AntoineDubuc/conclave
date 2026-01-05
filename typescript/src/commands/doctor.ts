@@ -5,7 +5,7 @@ import { ProviderFactory } from '../providers/factory.js';
 import { discoverProviders, displayDiscoveryResults, getAvailableProviderNames } from '../core/provider-discovery.js';
 
 export async function doctorCommand(configManager: ConfigManager) {
-    console.log(chalk.bold('\n🏥 Janus Health Check\n'));
+    console.log(chalk.bold('\n🏥 Conclave Health Check\n'));
 
     // Phase 1: Discovery
     console.log(chalk.gray('Discovering providers...\n'));
@@ -17,7 +17,7 @@ export async function doctorCommand(configManager: ConfigManager) {
     const availableProviders = getAvailableProviderNames(discovery);
 
     if (availableProviders.length === 0) {
-        console.log(chalk.red('\n✗ No providers available. Run "janus init" to set up.\n'));
+        console.log(chalk.red('\n✗ No providers available. Run "conclave init" to set up.\n'));
         return;
     }
 
@@ -66,9 +66,9 @@ export async function doctorCommand(configManager: ConfigManager) {
 
     const minProviders = 2;
     if (availableProviders.length >= minProviders) {
-        console.log(chalk.green(`✓ ${availableProviders.length} providers ready. Janus is operational!\n`));
+        console.log(chalk.green(`✓ ${availableProviders.length} providers ready. Conclave is operational!\n`));
     } else {
         console.log(chalk.yellow(`⚠ Only ${availableProviders.length} provider(s) available.`));
-        console.log(chalk.gray(`  Janus works best with at least ${minProviders} providers for debates.\n`));
+        console.log(chalk.gray(`  Conclave works best with at least ${minProviders} providers for debates.\n`));
     }
 }

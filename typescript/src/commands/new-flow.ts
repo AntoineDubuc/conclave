@@ -3,7 +3,7 @@ import { ConfigManager } from '../core/config.js';
 import { FlowConfig } from '../core/types.js';
 
 export async function newFlowWizard(configManager: ConfigManager) {
-    console.log('--- Janus Flow Wizard ---\n');
+    console.log('--- Conclave Flow Wizard ---\n');
 
     const answers = await inquirer.prompt([
         {

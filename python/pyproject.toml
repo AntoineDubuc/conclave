@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "janus-cli"
+name = "conclave-cli"
 version = "0.1.0"
-description = "Janus - Multi-LLM collaboration to harvest unique insights from each model"
+description = "Conclave - Multi-LLM collaboration to harvest unique insights from each model"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -33,10 +33,10 @@ dev = [
 ]
 
 [project.scripts]
-janus = "janus.cli:main"
+conclave = "conclave.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["janus"]
+packages = ["conclave"]
 
 [tool.black]
 line-length = 100

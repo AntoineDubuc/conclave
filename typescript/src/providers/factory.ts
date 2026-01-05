@@ -3,7 +3,7 @@ import { AnthropicProvider } from './anthropic.js';
 import { OpenAIProvider } from './openai.js';
 import { GeminiProvider } from './gemini.js';
 import { ClaudeBinaryProvider } from './claude_binary.js';
-import { JanusConfig, ProviderConfig } from '../core/types.js';
+import { ConclaveConfig, ProviderConfig } from '../core/types.js';
 import chalk from 'chalk';
 
 /**
@@ -37,7 +37,7 @@ function resolveAnthropicAuthMethod(providerConfig: ProviderConfig): 'cli' | 'ap
 }
 
 export class ProviderFactory {
-    static createProviders(config: JanusConfig): Provider[] {
+    static createProviders(config: ConclaveConfig): Provider[] {
         const providers: Provider[] = [];
 
         // Iterate over active providers defined in the global config

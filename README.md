@@ -1,12 +1,12 @@
-# Janus
+# Conclave
 
 **Multi-LLM collaboration CLI that harvests unique insights from each model.**
 
-Janus orchestrates structured conversations between AI models (Claude, GPT, Gemini, Grok) to produce better results than any single model alone. Each model brings its own perspective, critiques peers, and refines its thinking across multiple rounds.
+Conclave orchestrates structured conversations between AI models (Claude, GPT, Gemini, Grok) to produce better results than any single model alone. Each model brings its own perspective, critiques peers, and refines its thinking across multiple rounds.
 
-## Why Janus?
+## Why Conclave?
 
-Different AI models have different strengths, biases, and blind spots. Janus leverages this diversity:
+Different AI models have different strengths, biases, and blind spots. Conclave leverages this diversity:
 
 - **Claude** excels at nuanced reasoning and safety considerations
 - **GPT** brings broad knowledge and creative problem-solving
@@ -43,10 +43,10 @@ export GEMINI_API_KEY="..."
 export XAI_API_KEY="..."  # For Grok
 
 # Run your first collaboration
-janus run basic-ideator your-idea.md
+conclave run basic-ideator your-idea.md
 
 # Start an interactive chat
-janus chat
+conclave chat
 ```
 
 ### TypeScript
@@ -57,7 +57,7 @@ npm install
 npm run build
 npm link
 
-janus run basic-ideator your-idea.md
+conclave run basic-ideator your-idea.md
 ```
 
 ---
@@ -88,9 +88,9 @@ Each model sees the **full conversation history**, so they can reference and bui
 ### Usage
 
 ```bash
-janus chat                          # All active models
-janus chat -m anthropic -m openai   # Specific models
-janus chat -s my_session.json       # Resume session
+conclave chat                          # All active models
+conclave chat -m anthropic -m openai   # Specific models
+conclave chat -s my_session.json       # Resume session
 ```
 
 ### Chat Features
@@ -146,26 +146,26 @@ See the full [Chat Tutorial](docs/tutorials/CHAT_TUTORIAL.md) for more.
 
 ```bash
 # Flows
-janus list                          # Show available flows
-janus run <flow> <file.md>          # Run a flow on input
-janus run leading-ideator input.md --leader openai
+conclave list                          # Show available flows
+conclave run <flow> <file.md>          # Run a flow on input
+conclave run leading-ideator input.md --leader openai
 
 # Chat
-janus chat                          # Start interactive chat
-janus chat -m anthropic -m openai   # Chat with specific models
+conclave chat                          # Start interactive chat
+conclave chat -m anthropic -m openai   # Chat with specific models
 
 # Management
-janus doctor                        # Check provider connectivity
-janus models                        # Configure AI models
-janus new-flow                      # Create a custom flow
-janus auth-claude                   # Manage Claude CLI auth
+conclave doctor                        # Check provider connectivity
+conclave models                        # Configure AI models
+conclave new-flow                      # Create a custom flow
+conclave auth-claude                   # Manage Claude CLI auth
 ```
 
 ---
 
 ## Configuration
 
-Janus uses `janus.config.yaml` in your project directory:
+Conclave uses `conclave.config.yaml` in your project directory:
 
 ```yaml
 active_providers:
@@ -235,12 +235,12 @@ flows:
 Set environment variables for each provider you want to use.
 
 ### Claude CLI (Subscription Mode)
-If you have a Claude Pro/Max subscription, Janus can use the Claude CLI instead of API keys:
+If you have a Claude Pro/Max subscription, Conclave can use the Claude CLI instead of API keys:
 
 ```bash
 npm i -g @anthropic-ai/claude-code
 claude  # Authenticate once
-janus auth-claude  # Verify status
+conclave auth-claude  # Verify status
 ```
 
 ---
@@ -249,7 +249,7 @@ janus auth-claude  # Verify status
 
 | Use Case | Recommended Feature |
 |----------|---------------------|
-| Open-ended brainstorming | `janus chat` |
+| Open-ended brainstorming | `conclave chat` |
 | Architecture design | Leading flow with `--leader anthropic` |
 | Security audit | Basic flow (cross-validation) |
 | Code review | Chat or Basic flow |

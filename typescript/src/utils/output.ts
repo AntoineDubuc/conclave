@@ -12,7 +12,7 @@ export interface RunContext {
  */
 export function createRunContext(): RunContext {
     const runId = randomUUID().split('-')[0];
-    const runDir = path.join(process.cwd(), '.janus', 'runs', runId);
+    const runDir = path.join(process.cwd(), '.conclave', 'runs', runId);
     return { runId, runDir };
 }
 

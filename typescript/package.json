@@ -1,11 +1,11 @@
 {
-  "name": "janus-cli",
+  "name": "conclave-cli",
   "version": "0.1.0",
   "type": "module",
-  "description": "Janus - Multi-LLM collaboration to harvest unique insights from each model",
+  "description": "Conclave - Multi-LLM collaboration to harvest unique insights from each model",
   "main": "dist/index.js",
   "bin": {
-    "janus": "dist/index.js"
+    "conclave": "dist/index.js"
   },
   "scripts": {
     "build": "tsc && npm run copy-prompts",

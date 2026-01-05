@@ -1,6 +1,6 @@
 # Tutorial: Leading Flow (Hub-and-Spoke Hierarchical)
 
-**Use Case: Designing Janus's Plugin Architecture**
+**Use Case: Designing Conclave's Plugin Architecture**
 
 The leading flow implements a hub-and-spoke pattern where one model acts as the leader, synthesizing contributions from all others into a unified vision. This produces one coherent output rather than multiple perspectives.
 
@@ -49,7 +49,7 @@ The leading flow implements a hub-and-spoke pattern where one model acts as the 
 
 ## Real Example: Designing Plugin Architecture
 
-Let's use the leading flow to design a plugin system for Janus, with Claude as the leader.
+Let's use the leading flow to design a plugin system for Conclave, with Claude as the leader.
 
 ### Step 1: Create the Input File
 
@@ -60,7 +60,7 @@ Create `plugin-architecture.md`:
 
 ## Context
 
-Janus is a multi-LLM collaboration CLI. We want to add a plugin system so
+Conclave is a multi-LLM collaboration CLI. We want to add a plugin system so
 users can:
 
 1. Add new flow types without modifying core code
@@ -80,7 +80,7 @@ users can:
 ## Existing Structure
 
 ```
-janus/
+conclave/
 ├── flows/          # Flow implementations
 ├── providers/      # LLM providers
 └── utils/          # Utilities
@@ -106,13 +106,13 @@ A comprehensive architecture document with:
 ### Step 2: Run the Leading Flow
 
 ```bash
-janus run leading-ideator plugin-architecture.md --leader anthropic
+conclave run leading-ideator plugin-architecture.md --leader anthropic
 ```
 
 Or if `anthropic` is the default leader:
 
 ```bash
-janus run leading-ideator plugin-architecture.md
+conclave run leading-ideator plugin-architecture.md
 ```
 
 Output:
@@ -120,7 +120,7 @@ Output:
 Starting Flow: leading-ideator (Run ID: 20250104-150522)
 Leader: Anthropic (CLI)
 Contributors: OpenAI, Gemini
-Output Directory: .janus/runs/20250104-150522
+Output Directory: .conclave/runs/20250104-150522
 
 --- Leading Ideator ---
 Pattern: Hub-and-Spoke (Hierarchical)
@@ -137,14 +137,14 @@ Step 4: Leader synthesizes
 ✓ Step 4 Complete: Leader synthesized
 
 Flow Complete!
-Explore the results in: .janus/runs/20250104-150522
+Explore the results in: .conclave/runs/20250104-150522
 Final synthesis from Anthropic (CLI) is the recommended output.
 ```
 
 ### Step 3: Review the Outputs
 
 ```
-.janus/runs/20250104-150522/
+.conclave/runs/20250104-150522/
 ├── anthropic-round-1.md              # Claude's initial ideas
 ├── anthropic-round-2-synthesis.md    # Claude's first synthesis
 ├── anthropic-round-4-synthesis.md    # Claude's FINAL synthesis ⭐
@@ -186,7 +186,7 @@ Use standard packaging entry points:
 
 ```toml
 # pyproject.toml
-[project.entry-points."janus.flows"]
+[project.entry-points."conclave.flows"]
 my-flow = "my_package:MyFlowPlugin"
 ```
 
@@ -206,7 +206,7 @@ my-flow = "my_package:MyFlowPlugin"
 Instead of entry points, consider decorators:
 
 ```python
-from janus import register_flow
+from conclave import register_flow
 
 @register_flow("my-flow")
 class MyFlow:
@@ -224,10 +224,10 @@ class MyFlow:
 Each plugin should have a manifest:
 
 ```yaml
-# janus-plugin.yaml
+# conclave-plugin.yaml
 name: my-plugin
 version: 1.0.0
-janus_version: ">=0.2.0"
+conclave_version: ">=0.2.0"
 provides:
   flows:
     - my-custom-flow
@@ -247,7 +247,7 @@ For local development, scan directories:
 ```python
 def discover_plugins(paths: list[Path]) -> list[Plugin]:
     for path in paths:
-        if (path / "janus-plugin.yaml").exists():
+        if (path / "conclave-plugin.yaml").exists():
             yield load_plugin(path)
 ```
 
@@ -264,8 +264,8 @@ const plugin = await import(pluginPath);
 Use semver ranges:
 
 ```python
-def check_compatibility(plugin_requires: str, janus_version: str) -> bool:
-    return semver.match(janus_version, plugin_requires)
+def check_compatibility(plugin_requires: str, conclave_version: str) -> bool:
+    return semver.match(conclave_version, plugin_requires)
 ```
 ```
 
@@ -273,13 +273,13 @@ def check_compatibility(plugin_requires: str, janus_version: str) -> bool:
 
 **anthropic-round-2-synthesis.md:**
 ```markdown
-# Janus Plugin Architecture v1
+# Conclave Plugin Architecture v1
 
 *Synthesized from all contributions*
 
 ## Overview
 
-This document defines the plugin architecture for Janus, incorporating
+This document defines the plugin architecture for Conclave, incorporating
 ideas from all contributors.
 
 ## Plugin Types
@@ -298,14 +298,14 @@ and my entry points suggestion, we support three discovery methods:
 ### 1. Entry Points (Recommended for Packages)
 
 ```toml
-[project.entry-points."janus.flows"]
+[project.entry-points."conclave.flows"]
 my-flow = "my_package:MyFlowPlugin"
 ```
 
 ### 2. Decorators (Recommended for Local Development)
 
 ```python
-from janus.plugins import register_flow
+from conclave.plugins import register_flow
 
 @register_flow("my-flow")
 class MyFlow:
@@ -314,7 +314,7 @@ class MyFlow:
 
 ### 3. Filesystem (Auto-discovery)
 
-Scan `~/.janus/plugins/` for `janus-plugin.yaml` manifests.
+Scan `~/.conclave/plugins/` for `conclave-plugin.yaml` manifests.
 
 ## Plugin Interface
 
@@ -327,7 +327,7 @@ class FlowPlugin(Protocol):
 
     name: str
     version: str
-    janus_version: str  # Semver requirement
+    conclave_version: str  # Semver requirement
 
     def create_engine(
         self,
@@ -343,7 +343,7 @@ Following @OpenAI's suggestion with @Gemini's compatibility checking:
 ```yaml
 name: my-plugin
 version: 1.0.0
-janus_version: ">=0.2.0,<1.0.0"
+conclave_version: ">=0.2.0,<1.0.0"
 provides:
   flows:
     - name: my-flow
@@ -382,13 +382,13 @@ provides:
 
 1. **Plugin Conflicts**: Add namespace prefixing:
    ```
-   janus.flows.official.basic
-   janus.flows.community.my-flow
+   conclave.flows.official.basic
+   conclave.flows.community.my-flow
    ```
 
 2. **Testing**: Add a plugin testing harness:
    ```python
-   from janus.testing import PluginTestCase
+   from conclave.testing import PluginTestCase
 
    class TestMyFlow(PluginTestCase):
        plugin = MyFlowPlugin
@@ -400,7 +400,7 @@ provides:
 3. **Plugin Dependencies**: Use optional peer dependencies:
    ```yaml
    dependencies:
-     - janus-plugin-utils: ">=1.0.0"
+     - conclave-plugin-utils: ">=1.0.0"
    ```
 
 ### Missing Piece
@@ -421,17 +421,17 @@ No mention of plugin lifecycle hooks (init, shutdown).
 
 1. **Hot Reloading** for development:
    ```python
-   janus plugins --watch  # Reload on file changes
+   conclave plugins --watch  # Reload on file changes
    ```
 
 2. **Plugin Templates**:
    ```bash
-   janus plugin new my-flow --type flow
+   conclave plugin new my-flow --type flow
    ```
 
 3. **TypeScript Equivalent**: Add types file:
    ```typescript
-   // janus-plugin.d.ts
+   // conclave-plugin.d.ts
    export interface FlowPlugin {
      name: string;
      version: string;
@@ -448,13 +448,13 @@ Loading order should be configurable per-project, not global.
 
 **anthropic-round-4-synthesis.md:**
 ```markdown
-# Janus Plugin Architecture - Final Specification
+# Conclave Plugin Architecture - Final Specification
 
 *Version 1.0 | Synthesized from multi-model collaboration*
 
 ## Executive Summary
 
-This specification defines a plugin system for Janus that enables
+This specification defines a plugin system for Conclave that enables
 extensibility through flows, providers, and formatters. It incorporates
 feedback from GPT (conflict resolution, testing, lifecycle) and Gemini
 (hot reloading, templates, TypeScript parity).
@@ -483,7 +483,7 @@ class FlowPlugin(Protocol):
 
     name: str
     version: str
-    janus_version: str  # Semver requirement
+    conclave_version: str  # Semver requirement
 
     def on_load(self) -> None:
         """Called when plugin is loaded."""
@@ -506,11 +506,11 @@ class FlowPlugin(Protocol):
 ## 3. Plugin Interface (TypeScript)
 
 ```typescript
-// @janus/plugin-types
+// @conclave/plugin-types
 export interface FlowPlugin {
   readonly name: string;
   readonly version: string;
-  readonly janusVersion: string;
+  readonly conclaveVersion: string;
 
   onLoad?(): Promise<void>;
   onUnload?(): Promise<void>;
@@ -529,7 +529,7 @@ export interface FlowPlugin {
 ### Priority Order (Configurable)
 
 ```yaml
-# janus.config.yaml
+# conclave.config.yaml
 plugin_priority:
   - builtin
   - entrypoints
@@ -540,20 +540,20 @@ plugin_priority:
 ### 4.1 Entry Points
 
 ```toml
-[project.entry-points."janus.flows"]
-acme-flow = "acme_janus:AcmeFlowPlugin"
+[project.entry-points."conclave.flows"]
+acme-flow = "acme_conclave:AcmeFlowPlugin"
 ```
 
 ### 4.2 Decorators
 
 ```python
-from janus.plugins import register_flow
+from conclave.plugins import register_flow
 
 @register_flow("my-flow")
 class MyFlow:
     name = "my-flow"
     version = "1.0.0"
-    janus_version = ">=0.2.0"
+    conclave_version = ">=0.2.0"
 
     def create_engine(self, providers, config):
         return MyFlowEngine(providers, config)
@@ -562,9 +562,9 @@ class MyFlow:
 ### 4.3 Filesystem
 
 ```
-~/.janus/plugins/
+~/.conclave/plugins/
 └── my-plugin/
-    ├── janus-plugin.yaml
+    ├── conclave-plugin.yaml
     └── plugin.py
 ```
 
@@ -575,7 +575,7 @@ class MyFlow:
 ```yaml
 name: acme-flows
 version: 1.0.0
-janus_version: ">=0.2.0,<1.0.0"
+conclave_version: ">=0.2.0,<1.0.0"
 
 provides:
   flows:
@@ -584,7 +584,7 @@ provides:
       description: "ACME's brainstorming flow"
 
 dependencies:  # Optional peer plugins
-  - janus-utils: ">=1.0.0"
+  - conclave-utils: ">=1.0.0"
 ```
 
 ---
@@ -594,16 +594,16 @@ dependencies:  # Optional peer plugins
 Namespaced with source prefix:
 
 ```
-janus.flows.builtin.basic
-janus.flows.entrypoint.acme-flow
-janus.flows.local.my-flow
+conclave.flows.builtin.basic
+conclave.flows.entrypoint.acme-flow
+conclave.flows.local.my-flow
 ```
 
 User can override in config:
 
 ```yaml
 flow_aliases:
-  brainstorm: janus.flows.entrypoint.acme-flow
+  brainstorm: conclave.flows.entrypoint.acme-flow
 ```
 
 ---
@@ -613,21 +613,21 @@ flow_aliases:
 ### Plugin Generator
 
 ```bash
-janus plugin new my-flow --type flow
+conclave plugin new my-flow --type flow
 # Creates scaffold with manifest, tests, example
 ```
 
 ### Hot Reload (Dev Mode)
 
 ```bash
-janus plugins --watch
+conclave plugins --watch
 # Reloads plugins on file changes
 ```
 
 ### Testing Harness
 
 ```python
-from janus.testing import PluginTestCase
+from conclave.testing import PluginTestCase
 
 class TestMyFlow(PluginTestCase):
     plugin_class = MyFlowPlugin
@@ -648,8 +648,8 @@ class TestMyFlow(PluginTestCase):
 Existing flows become builtin plugins:
 
 ```python
-# janus/flows/basic/__init__.py
-from janus.plugins import register_flow
+# conclave/flows/basic/__init__.py
+from conclave.plugins import register_flow
 
 @register_flow("basic", builtin=True)
 class BasicFlowPlugin:
@@ -685,15 +685,15 @@ No breaking changes to CLI or config.
 
 ```python
 # my_plugin/flow.py
-from janus.plugins import register_flow, FlowEngine
-from janus.core.types import FlowConfig
-from janus.providers.base import Provider
+from conclave.plugins import register_flow, FlowEngine
+from conclave.core.types import FlowConfig
+from conclave.providers.base import Provider
 
 @register_flow("round-robin-v2")
 class RoundRobinV2Plugin:
     name = "round-robin-v2"
     version = "1.0.0"
-    janus_version = ">=0.2.0"
+    conclave_version = ">=0.2.0"
 
     def on_load(self):
         print("Round Robin V2 loaded!")
@@ -708,7 +708,7 @@ class RoundRobinV2Plugin:
 
 ---
 
-*Generated with Janus leading flow | Leader: Claude | Contributors: GPT, Gemini*
+*Generated with Conclave leading flow | Leader: Claude | Contributors: GPT, Gemini*
 ```
 
 ---
@@ -766,7 +766,7 @@ flows:
 ### Override at Runtime
 
 ```bash
-janus run architecture spec.md --leader openai
+conclave run architecture spec.md --leader openai
 ```
 
 ### Custom Prompts
@@ -796,7 +796,7 @@ flows:
 Leading flow produces synthesis-tagged files:
 
 ```
-.janus/runs/20250104-150522/
+.conclave/runs/20250104-150522/
 ├── anthropic-round-1.md              # Leader's initial ideas
 ├── anthropic-round-2-synthesis.md    # First synthesis
 ├── anthropic-round-4-synthesis.md    # FINAL SYNTHESIS ⭐

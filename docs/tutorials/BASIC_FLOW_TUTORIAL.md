@@ -1,6 +1,6 @@
 # Tutorial: Basic Flow (Round-Robin Democratic)
 
-**Use Case: Security Audit of Janus's Provider Factory**
+**Use Case: Security Audit of Conclave's Provider Factory**
 
 The basic flow implements a democratic round-robin pattern where all models brainstorm independently, then refine their ideas based on peer feedback. No single model leads - all are equal contributors.
 
@@ -43,9 +43,9 @@ The basic flow implements a democratic round-robin pattern where all models brai
 
 ---
 
-## Real Example: Auditing Janus's Code
+## Real Example: Auditing Conclave's Code
 
-Let's audit the provider factory code in Janus itself for security issues.
+Let's audit the provider factory code in Conclave itself for security issues.
 
 ### Step 1: Create the Input File
 
@@ -57,8 +57,8 @@ Create `audit-factory.md`:
 ## Target Code
 
 ```python
-# janus/providers/factory.py
-def create_providers(config: JanusConfig) -> list[Provider]:
+# conclave/providers/factory.py
+def create_providers(config: ConclaveConfig) -> list[Provider]:
     """Create provider instances based on configuration."""
     providers = []
 
@@ -96,13 +96,13 @@ def create_providers(config: JanusConfig) -> list[Provider]:
 ### Step 2: Run the Basic Flow
 
 ```bash
-janus run basic-ideator audit-factory.md
+conclave run basic-ideator audit-factory.md
 ```
 
 Output:
 ```
 Starting Flow: basic-ideator (Run ID: 20250104-143022)
-Output Directory: .janus/runs/20250104-143022
+Output Directory: .conclave/runs/20250104-143022
 
 --- Basic Ideator ---
 Pattern: Round-Robin (Democratic)
@@ -115,13 +115,13 @@ Round 2: Convergence (Refinement)
 ✓ Round 2 Complete
 
 Flow Complete!
-Explore the results in: .janus/runs/20250104-143022
+Explore the results in: .conclave/runs/20250104-143022
 ```
 
 ### Step 3: Review the Outputs
 
 ```
-.janus/runs/20250104-143022/
+.conclave/runs/20250104-143022/
 ├── anthropic-round-1.md
 ├── anthropic-round-2.md
 ├── openai-round-1.md
@@ -291,13 +291,13 @@ In Round 2, models:
 More rounds = more refinement, but diminishing returns after 3:
 
 ```bash
-janus new-flow
+conclave new-flow
 # Set max_rounds: 3
 ```
 
 ### Custom Prompts
 
-Edit `janus.config.yaml`:
+Edit `conclave.config.yaml`:
 
 ```yaml
 flows:
@@ -327,7 +327,7 @@ flows:
 Each run creates a timestamped directory:
 
 ```
-.janus/runs/20250104-143022/
+.conclave/runs/20250104-143022/
 ├── anthropic-round-1.md   # Claude's initial analysis
 ├── anthropic-round-2.md   # Claude's refined analysis
 ├── openai-round-1.md      # GPT's initial analysis

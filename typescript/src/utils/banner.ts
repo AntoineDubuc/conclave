@@ -1,5 +1,5 @@
 /**
- * ASCII banner utilities for Janus CLI.
+ * ASCII banner utilities for Conclave CLI.
  */
 
 import figlet from 'figlet';
@@ -15,10 +15,10 @@ const GRADIENT_COLORS = [
 ];
 
 /**
- * Print the Janus ASCII art banner with gradient colors.
+ * Print the Conclave ASCII art banner with gradient colors.
  */
 export function printBanner(subtitle?: string): void {
-    const asciiArt = figlet.textSync('JANUS', { font: 'Banner3' });
+    const asciiArt = figlet.textSync('CONCLAVE', { font: 'Banner3' });
     const lines = asciiArt.split('\n');
 
     // Print with left-to-right gradient effect
@@ -49,5 +49,5 @@ export function printBanner(subtitle?: string): void {
  * Get the raw ASCII banner text without colors.
  */
 export function getBannerText(): string {
-    return figlet.textSync('JANUS', { font: 'Banner3' });
+    return figlet.textSync('CONCLAVE', { font: 'Banner3' });
 }

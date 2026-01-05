@@ -1,11 +1,11 @@
-# Janus (Python)
+# Conclave (Python)
 
 Multi-LLM collaboration CLI. Harvests unique insights from each model through structured flows.
 
 ## Architecture
 
 ```
-janus/
+conclave/
 ├── __init__.py
 ├── cli.py                   # CLI entry point (Click)
 ├── core/
@@ -48,25 +48,25 @@ pip install -e .
 ## Usage
 
 ```bash
-janus run basic-ideator input.md
-janus run leading-ideator input.md --leader openai
-janus list
-janus doctor
+conclave run basic-ideator input.md
+conclave run leading-ideator input.md --leader openai
+conclave list
+conclave doctor
 ```
 
 ## Adding a New Flow
 
-1. Create `janus/flows/your-flow/`
+1. Create `conclave/flows/your-flow/`
 2. Add:
    - `engine.py` - Orchestration logic
    - `prompts.py` - Prompt loader
    - `*.md` - Markdown prompt files
    - `__init__.py` - Export Engine + metadata
-3. Register in `janus/flows/__init__.py`
+3. Register in `conclave/flows/__init__.py`
 
 ## Configuration
 
-Config: `./janus.config.yaml`
+Config: `./conclave.config.yaml`
 
 ```yaml
 active_providers:

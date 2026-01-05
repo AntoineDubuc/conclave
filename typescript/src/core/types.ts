@@ -22,7 +22,7 @@ export const ProviderConfigSchema = z.object({
     base_url: z.string().optional(), // For openai_compatible
 });
 
-export const JanusConfigSchema = z.object({
+export const ConclaveConfigSchema = z.object({
     active_providers: z.array(z.string()), // Global default providers
     providers: z.record(z.string(), ProviderConfigSchema),
     flows: z.record(z.string(), z.object({
@@ -41,11 +41,11 @@ export const JanusConfigSchema = z.object({
     // Lenses can be added later
 });
 
-export type JanusConfig = z.infer<typeof JanusConfigSchema>;
+export type ConclaveConfig = z.infer<typeof ConclaveConfigSchema>;
 export type FlowConfig = z.infer<typeof FlowSchema>;
 export type ProviderConfig = z.infer<typeof ProviderConfigSchema>;
 
-export const DEFAULT_CONFIG: JanusConfig = {
+export const DEFAULT_CONFIG: ConclaveConfig = {
     active_providers: ['anthropic', 'openai', 'gemini'],
     providers: {
         anthropic: { type: 'anthropic', model: 'claude-opus-4-5-20251101', auth_method: 'auto' },

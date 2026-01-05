@@ -10,7 +10,7 @@ export const flows = {
 
 export type FlowType = keyof typeof flows;
 
-// Flow config interface (what comes from janus.config.yaml)
+// Flow config interface (what comes from conclave.config.yaml)
 export interface FlowConfig {
     name: string;
     description?: string;
