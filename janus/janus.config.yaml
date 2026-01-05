@@ -5,13 +5,13 @@ active_providers:
 providers:
   anthropic:
     type: anthropic
-    model: claude-sonnet-4-5-20250929
+    model: claude-opus-4-5-20251101
   openai:
     type: openai
-    model: gpt-4o
+    model: gpt-5.2
   gemini:
     type: gemini
-    model: gemini-2.0-flash
+    model: gemini-3-pro-preview
   grok:
     type: openai_compatible
     model: grok-4

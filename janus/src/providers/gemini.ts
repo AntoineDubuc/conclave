@@ -8,7 +8,7 @@ export class GeminiProvider implements Provider {
     private modelName: string;
 
     constructor(config: ProviderConfig) {
-        this.modelName = config.model || 'gemini-2.0-flash';
+        this.modelName = config.model || 'gemini-3-pro-preview';
         const apiKey = config.api_key || process.env.GEMINI_API_KEY;
         if (!apiKey) {
             throw new Error('GEMINI_API_KEY is missing');
