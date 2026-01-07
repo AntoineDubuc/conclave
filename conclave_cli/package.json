@@ -1,0 +1,47 @@
+{
+  "name": "conclave-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Conclave - Multi-LLM collaboration to harvest unique insights from each model",
+  "main": "dist/index.js",
+  "bin": {
+    "conclave": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc && npm run copy-prompts",
+    "copy-prompts": "find src/flows -name '*.md' | while read f; do d=$(dirname \"$f\" | sed 's|src/|dist/|'); mkdir -p \"$d\"; cp \"$f\" \"$d/\"; done",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "agent",
+    "llm",
+    "debate"
+  ],
+  "author": "Conclave Team",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.33.0",
+    "@google/generative-ai": "^0.21.0",
+    "chalk": "^4.1.2",
+    "commander": "^12.0.0",
+    "dotenv": "^16.4.5",
+    "figlet": "^1.9.4",
+    "inquirer": "^9.2.16",
+    "js-yaml": "^4.1.0",
+    "openai": "^4.76.0",
+    "ora": "^5.4.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.7.0",
+    "@types/inquirer": "^9.0.7",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.24",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

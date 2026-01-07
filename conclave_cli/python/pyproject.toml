@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "conclave-cli"
+version = "0.1.0"
+description = "Conclave - Multi-LLM collaboration to harvest unique insights from each model"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Conclave Team" }
+]
+keywords = ["ai", "cli", "llm", "collaboration"]
+dependencies = [
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+    "pydantic>=2.0.0",
+    "anthropic>=0.40.0",
+    "openai>=1.0.0",
+    "google-genai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "pyfiglet>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+conclave = "conclave.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["conclave"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I"]
