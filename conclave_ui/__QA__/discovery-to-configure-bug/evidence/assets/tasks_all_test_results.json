@@ -1,0 +1,33 @@
+{
+  "agent": "static_and_tests",
+  "tasks_covered": [1, 2, 3, 4],
+  "verdict": "FAIL",
+  "static_analysis": {
+    "command": "npx tsc --noEmit",
+    "errors": 0,
+    "warnings": 0,
+    "output": "Only errors found are in lib/supabase/database.types.ts (known pre-existing issue, excluded per instructions):\n  lib/supabase/database.types.ts(1,1): error TS1434: Unexpected keyword or identifier.\n  lib/supabase/database.types.ts(1,12): error TS1434: Unexpected keyword or identifier.\n  lib/supabase/database.types.ts(1,15): error TS1434: Unexpected keyword or identifier.\n\nNo errors in any of the 5 changed files.",
+    "note": "All 3 errors are in lib/supabase/database.types.ts which is a known pre-existing issue (excluded from verdict)."
+  },
+  "lint": {
+    "command": "npx eslint .",
+    "errors": 15,
+    "warnings": 13,
+    "errors_in_changed_files": 0,
+    "warnings_in_changed_files": 3,
+    "output": "Total: 28 problems (15 errors, 13 warnings). None of the 15 errors are in the 5 changed files.\n\nChanged file issues (warnings only):\n  - app/(app)/flows/new/page.tsx:28:54 warning 'BuiltInPatternId' is defined but never used (@typescript-eslint/no-unused-vars)\n  - app/(app)/flows/new/page.tsx:176:10 warning '_entryChoice' is assigned a value but never used (@typescript-eslint/no-unused-vars)\n  - lib/flows/defaults.ts:16:46 warning 'ModelInfo' is defined but never used (@typescript-eslint/no-unused-vars)\n\nPre-existing errors in OTHER files (not changed in this PR):\n  - app/(app)/dashboard/page.tsx:64:30 error react-hooks/purity (Date.now in render)\n  - components/billing/PromoStatusBanner.tsx:29:9 error react-hooks/set-state-in-effect\n  - components/chat/tool-results/index.tsx: 6 errors react-hooks/error-boundaries (JSX in try/catch)\n  - components/dashboard/byok-stats-cards.tsx:53:30 error react-hooks/purity (Date.now in render)\n  - components/flows/result-editor.tsx:115:5 error react-hooks/set-state-in-render\n  - components/runs/pagination.tsx: 2 errors react-hooks/static-components\n  - lib/hooks/use-flow-mode.ts:34:9 error react-hooks/set-state-in-effect\n  - lib/supabase/database.types.ts:1:0 error Parsing error (known issue)\n  - lib/supabase/middleware.ts:5:7 error prefer-const",
+    "note": "next lint was removed in Next.js 16; used npx eslint . instead. All 15 errors are pre-existing in files NOT changed by this PR. The 3 warnings in changed files are minor unused-var warnings."
+  },
+  "build": {
+    "command": "npx next build",
+    "result": "fail",
+    "output": "Build failed with type error:\n  ./lib/flows/config.ts:310:7\n  Type error: Object literal may only specify known properties, and 'executors' does not exist in type 'Phase'.\n\nThis error is in lib/flows/config.ts which is NOT one of the 5 changed files. Git diff confirms only file permission (mode) changed, not content. This is a pre-existing build failure.",
+    "error_in_changed_files": false,
+    "note": "Build failure is pre-existing in lib/flows/config.ts (not modified by this PR). The file only had a permission mode change (644 -> 755), no content change."
+  },
+  "summary": {
+    "changed_files_status": "PASS - No errors introduced by the 5 changed files. Only 3 minor unused-variable warnings.",
+    "pre_existing_issues": "15 lint errors + 1 build type error exist in files NOT changed by this PR.",
+    "verdict_rationale": "FAIL due to pre-existing build failure in lib/flows/config.ts (executors property does not exist on Phase type). While none of the 5 changed files introduce new errors, the overall build does not compile. If the verdict should only consider the changed files, this would be a PASS."
+  }
+}

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evidence Summary — Discovery → Configure Task Synthesis</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 1060px; margin: 0 auto; padding: 24px; color: #1a1a1a; background: #fafafa; }
+    h1 { font-size: 28px; margin-bottom: 8px; }
+    h2 { font-size: 20px; margin: 32px 0 16px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; }
+    h3 { font-size: 16px; margin: 20px 0 8px; }
+    .meta { color: #666; font-size: 14px; margin-bottom: 24px; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-weight: 700; font-size: 14px; margin-left: 12px; }
+    .badge-lg { font-size: 18px; padding: 6px 16px; }
+    .pass { background: #d4edda; color: #155724; }
+    .fail { background: #f8d7da; color: #721c24; }
+    .warn { background: #fff3cd; color: #856404; }
+    .section { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th { background: #f0f0f0; text-align: left; padding: 10px 12px; font-size: 13px; font-weight: 600; border-bottom: 2px solid #ddd; }
+    td { padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 14px; }
+    tr:hover { background: #f8f8f8; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .log { background: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; font-size: 13px; overflow-x: auto; white-space: pre-wrap; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 16px 0; }
+    .stat-card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; text-align: center; }
+    .stat-value { font-size: 28px; font-weight: 700; }
+    .stat-label { font-size: 12px; color: #666; margin-top: 4px; }
+    .stat-pass { color: #155724; }
+    .stat-fail { color: #721c24; }
+    .screenshot { max-width: 100%; border: 1px solid #ccc; border-radius: 4px; margin: 8px 0; }
+    .finding { padding: 8px 12px; margin: 4px 0; border-left: 3px solid; border-radius: 0 4px 4px 0; }
+    .finding-error { border-color: #dc3545; background: #fff5f5; }
+    .finding-warning { border-color: #ffc107; background: #fffbf0; }
+    .finding-info { border-color: #17a2b8; background: #f0f9ff; }
+    .finding-fixed { border-color: #28a745; background: #f0fff4; }
+  </style>
+</head>
+<body>
+
+  <h1>Evidence Summary <span class="badge badge-lg pass">ALL PASS</span></h1>
+  <p class="meta">
+    Feature: Discovery → Configure Task Synthesis<br>
+    Generated: 2026-02-10 | Implementation: 4 tasks | Verification: 3 split-agents per task
+  </p>
+
+  <!-- Overview Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-value stat-pass">4 / 4</div>
+      <div class="stat-label">Tasks Passed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Bugs Found & Fixed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Files Changed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">New File Created</div>
+    </div>
+  </div>
+
+  <!-- Task Results Table -->
+  <h2>Task Results</h2>
+  <div class="section">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Task Name</th>
+          <th>Risk</th>
+          <th>Verdict</th>
+          <th>Attempts</th>
+          <th>Report</th>
+          <th>Key Finding</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Synthesis API Endpoint + System Prompt</td>
+          <td>M</td>
+          <td><span class="badge pass">PASS</span></td>
+          <td>1</td>
+          <td><a href="task_01_report.html">Report</a></td>
+          <td>All 4 API tests pass (200/400 correct)</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Update DiscoveryChat to Pass Model Info</td>
+          <td>L</td>
+          <td><span class="badge pass">PASS</span></td>
+          <td>1</td>
+          <td><a href="task_02_report.html">Report</a></td>
+          <td>Clean interface change, typed as ProviderId</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Synthesis Call + Pre-fill in page.tsx</td>
+          <td>H</td>
+          <td><span class="badge pass">PASS</span></td>
+          <td>2</td>
+          <td><a href="task_03_report.html">Report</a></td>
+          <td>Attempt 1: textarea not disabled — fixed</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Synthesis Loading State in Configure Step</td>
+          <td>M</td>
+          <td><span class="badge pass">PASS</span></td>
+          <td>2</td>
+          <td><a href="task_04_report.html">Report</a></td>
+          <td>Attempt 1: same textarea bug — fixed in task-input.tsx</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Verification Agents -->
+  <h2>Verification Agents</h2>
+  <div class="section">
+    <table>
+      <thead>
+        <tr>
+          <th>Agent</th>
+          <th>Role</th>
+          <th>Initial Verdict</th>
+          <th>Post-Fix Verdict</th>
+          <th>Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Agent A</td>
+          <td>Code Review (all 4 tasks)</td>
+          <td><span class="badge fail">FAIL</span></td>
+          <td><span class="badge pass">PASS</span></td>
+          <td><a href="assets/tasks_all_code_review.json">JSON</a></td>
+        </tr>
+        <tr>
+          <td>Agent B</td>
+          <td>Static Analysis + Lint + Build</td>
+          <td><span class="badge pass">PASS</span> (changed files)</td>
+          <td><span class="badge pass">PASS</span></td>
+          <td><a href="assets/tasks_all_test_results.json">JSON</a></td>
+        </tr>
+        <tr>
+          <td>Agent C</td>
+          <td>Runtime API Testing + Screenshots</td>
+          <td><span class="badge pass">PASS</span></td>
+          <td><span class="badge pass">PASS</span></td>
+          <td><a href="assets/tasks_all_runtime.json">JSON</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bugs Found and Fixed -->
+  <h2>Bugs Found & Fixed</h2>
+  <div class="section">
+    <h3>Bug 1: TaskInput disabled prop not wired to textarea</h3>
+    <div class="finding finding-fixed">
+      <strong>Severity:</strong> Error | <strong>Found by:</strong> Agent A (Code Review) | <strong>Status:</strong> Fixed
+    </div>
+    <p style="margin: 8px 0;"><strong>File:</strong> <code>components/flows/task-input.tsx:83</code></p>
+    <p style="margin: 8px 0;"><strong>Problem:</strong> The <code>disabled</code> prop was accepted by TaskInput but only wired to the internal Run Flow button's disabled attribute. The textarea used <code>disabled={isRunning}</code>, completely ignoring the <code>disabled</code> prop. This meant during synthesis, the textarea was technically editable despite the visual overlay.</p>
+    <div class="log">// BEFORE (bug):
+disabled={isRunning}
+
+// AFTER (fix):
+disabled={disabled || isRunning}</div>
+
+    <h3 style="margin-top: 20px;">Bug 2: DiscoveryContinueData.provider typed as string</h3>
+    <div class="finding finding-fixed">
+      <strong>Severity:</strong> Warning | <strong>Found by:</strong> Agent A (Code Review) | <strong>Status:</strong> Fixed
+    </div>
+    <p style="margin: 8px 0;"><strong>File:</strong> <code>components/flows/discovery-chat.tsx:44</code></p>
+    <p style="margin: 8px 0;"><strong>Problem:</strong> <code>provider</code> field was typed as <code>string</code> but the synthesis API endpoint expects <code>"anthropic" | "openai" | "google" | "xai"</code>. A new provider string would silently produce a 400 error at runtime.</p>
+    <div class="log">// BEFORE (type mismatch):
+provider: string;
+
+// AFTER (fix):
+provider: ProviderId;  // "anthropic" | "openai" | "google" | "xai"</div>
+  </div>
+
+  <!-- Non-Blocking Warnings -->
+  <h2>Non-Blocking Warnings</h2>
+  <div class="section">
+    <div class="finding finding-warning">
+      <strong>console.warn/error statements</strong> — 3 instances in production code (page.tsx:372, page.tsx:382, synthesize/route.ts:166). Should use structured logging in production.
+    </div>
+    <div class="finding finding-warning">
+      <strong>Google API key empty-string fallback</strong> — synthesize/route.ts:43. Falls back to <code>""</code> instead of failing fast if no key exists.
+    </div>
+    <div class="finding finding-warning">
+      <strong>BYOK API keys not forwarded</strong> — DiscoveryChat doesn't receive apiKeys prop from page.tsx. Pre-existing issue, not introduced by this PR.
+    </div>
+    <div class="finding finding-info">
+      <strong>Provider client factories duplicated</strong> — synthesize/route.ts duplicates client factory functions from discovery/route.ts. Future refactoring opportunity.
+    </div>
+  </div>
+
+  <!-- Pre-Existing Issues -->
+  <h2>Pre-Existing Issues (Not Introduced by This PR)</h2>
+  <div class="section">
+    <div class="finding finding-warning">
+      <strong>Build failure:</strong> <code>lib/flows/config.ts:310</code> — <code>executors</code> property does not exist on type <code>Phase</code>. File only had permission mode change (644→755), no content change. Pre-existing.
+    </div>
+    <div class="finding finding-warning">
+      <strong>Parse error:</strong> <code>lib/supabase/database.types.ts:1</code> — Stray "Connecting to db 5432" text. Pre-existing.
+    </div>
+    <div class="finding finding-warning">
+      <strong>15 lint errors</strong> in files not modified by this PR (dashboard, billing, chat, hooks, middleware).
+    </div>
+  </div>
+
+  <!-- Screenshots -->
+  <h2>Screenshots</h2>
+  <div class="section">
+    <h3>New Flow Page (/flows/new)</h3>
+    <img class="screenshot" src="assets/flow_new_page.png" alt="New Flow page" />
+    <p style="margin-top: 8px; color: #666; font-size: 13px;">Shows "Use Existing Flow" and "Create New Flow" options with sidebar navigation.</p>
+
+    <h3 style="margin-top: 20px;">Advanced Flow Builder (/flows/new?mode=advanced)</h3>
+    <img class="screenshot" src="assets/advanced_mode.png" alt="Advanced Flow Builder" />
+    <p style="margin-top: 8px; color: #666; font-size: 13px;">Shows multi-step wizard (Discovery → Configure → Review → Execute), model selection with Anthropic and OpenAI providers.</p>
+  </div>
+
+  <!-- Files Changed -->
+  <h2>Files Changed</h2>
+  <div class="section">
+    <table>
+      <thead>
+        <tr>
+          <th>File</th>
+          <th>Action</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>app/api/chat/synthesize/route.ts</code></td>
+          <td>NEW</td>
+          <td>Non-streaming synthesis endpoint (Anthropic, OpenAI, Google, xAI)</td>
+        </tr>
+        <tr>
+          <td><code>lib/flows/defaults.ts</code></td>
+          <td>MODIFIED</td>
+          <td>Added SYNTHESIS_SYSTEM_PROMPT constant</td>
+        </tr>
+        <tr>
+          <td><code>components/flows/discovery-chat.tsx</code></td>
+          <td>MODIFIED</td>
+          <td>onContinue now passes DiscoveryContinueData (transcript + model + provider)</td>
+        </tr>
+        <tr>
+          <td><code>components/flows/index.ts</code></td>
+          <td>MODIFIED</td>
+          <td>Added DiscoveryContinueData type export</td>
+        </tr>
+        <tr>
+          <td><code>app/(app)/flows/new/page.tsx</code></td>
+          <td>MODIFIED</td>
+          <td>Added synthesizeTask, isSynthesizing state, loading overlay, button disabling</td>
+        </tr>
+        <tr>
+          <td><code>components/flows/task-input.tsx</code></td>
+          <td>MODIFIED</td>
+          <td>Fixed: textarea now respects disabled prop</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

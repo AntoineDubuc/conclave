@@ -41,7 +41,7 @@ type FlowType = "round-robin" | "hub-spoke";
 export interface DiscoveryContinueData {
   transcript: string;
   modelId: string;
-  provider: string;
+  provider: ProviderId;
 }
 
 interface DiscoveryChatProps {

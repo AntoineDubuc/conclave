@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evidence Report — Task 1: Synthesis API Endpoint + System Prompt</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 960px; margin: 0 auto; padding: 24px; color: #1a1a1a; background: #fafafa; }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    h2 { font-size: 18px; margin: 24px 0 12px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-weight: 700; font-size: 14px; margin-left: 12px; }
+    .pass { background: #d4edda; color: #155724; }
+    .fail { background: #f8d7da; color: #721c24; }
+    .meta { color: #666; font-size: 14px; margin-bottom: 24px; }
+    .section { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .screenshot { max-width: 100%; border: 1px solid #ccc; border-radius: 4px; margin: 8px 0; }
+    .log { background: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; font-size: 13px; overflow-x: auto; white-space: pre-wrap; }
+    .checklist { list-style: none; }
+    .checklist li { padding: 4px 0; }
+    .checklist li::before { content: ''; display: inline-block; width: 16px; height: 16px; margin-right: 8px; border: 2px solid #ccc; border-radius: 3px; vertical-align: middle; }
+    .checklist li.pass::before { background: #28a745; border-color: #28a745; content: '\2713'; color: white; text-align: center; line-height: 16px; font-size: 12px; }
+    .checklist li.fail::before { background: #dc3545; border-color: #dc3545; content: '\2717'; color: white; text-align: center; line-height: 16px; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <h1>Task 1: Synthesis API Endpoint + System Prompt <span class="badge pass">PASS</span></h1>
+  <p class="meta">Generated: 2026-02-10 | Risk: M | Attempt: 1 of 3 | Phase: Backend Infrastructure</p>
+
+  <!-- SECTION 1: Static Analysis -->
+  <h2>1. Static Analysis</h2>
+  <div class="section">
+    <p><strong>Command:</strong> <code>npx tsc --noEmit</code></p>
+    <div class="log">$ npx tsc --noEmit
+# Excluding pre-existing errors in lib/supabase/database.types.ts (known issue)
+# No errors in changed files:
+#   - app/api/chat/synthesize/route.ts ✓
+#   - lib/flows/defaults.ts ✓</div>
+    <p><strong>Result:</strong> 0 errors in changed files — <strong>PASS</strong></p>
+  </div>
+
+  <div class="section">
+    <p><strong>Command:</strong> <code>npx eslint .</code></p>
+    <div class="log">$ npx eslint .
+# Changed file issues:
+#   lib/flows/defaults.ts:16:46 warning 'ModelInfo' is defined but never used (pre-existing)
+# No errors in changed files.
+# All 15 errors are in files NOT changed by this PR.</div>
+    <p><strong>Result:</strong> 0 errors in changed files, 1 pre-existing warning — <strong>PASS</strong></p>
+  </div>
+
+  <!-- SECTION 2: Tests -->
+  <h2>2. Test Results</h2>
+  <div class="section">
+    <p><strong>Note:</strong> No unit tests exist for API routes in this project. Verification via runtime API testing (Section 6).</p>
+    <p><strong>Result:</strong> N/A (no test suite for API routes) — <strong>PASS</strong></p>
+  </div>
+
+  <!-- SECTION 3: Visual Evidence -->
+  <h2>3. Visual Evidence</h2>
+  <div class="section">
+    <p><strong>Screen:</strong> N/A — This is a backend API endpoint with no visual component.</p>
+    <p><strong>Observations:</strong> Task 1 is backend-only. Visual evidence not applicable.</p>
+  </div>
+
+  <!-- SECTION 4: Runtime Error Check -->
+  <h2>4. Runtime Error Check</h2>
+  <div class="section">
+    <p><strong>Source:</strong> Next.js dev server logs during API testing</p>
+    <div class="log">All requests returned expected status codes.
+POST /api/chat/synthesize: 200 for valid requests (2.4-7.7s response time)
+POST /api/chat/synthesize: 400 for invalid requests (4-130ms response time)
+All compilations successful. No errors in logs.</div>
+    <p><strong>Result:</strong> <strong>PASS</strong></p>
+  </div>
+
+  <!-- SECTION 5: Interaction Test -->
+  <h2>5. Interaction Test</h2>
+  <div class="section">
+    <p><strong>Note:</strong> Backend endpoint — no UI interaction. See Section 6 for API interaction tests.</p>
+  </div>
+
+  <!-- SECTION 6: Backend Evidence -->
+  <h2>6. Backend Evidence</h2>
+  <div class="section">
+    <p><strong>Test 1 — Valid synthesis request:</strong></p>
+    <div class="log">$ curl -s -X POST http://localhost:4100/api/chat/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{"transcript":"User: I want to compare how different AI models write creative fiction...",
+       "model":"claude-sonnet-4-5-20250929","provider":"anthropic"}'
+
+HTTP 200
+{"task":"Write a short story set in a dystopian future, with the goal of comparing how different AI models approach creative writing across three key dimensions: narrative voice, world-building detail, a..."}</div>
+
+    <p><strong>Test 2 — Missing transcript (400):</strong></p>
+    <div class="log">$ curl -s -X POST http://localhost:4100/api/chat/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{"model":"claude-sonnet-4-5-20250929","provider":"anthropic"}'
+
+HTTP 400
+{"error":"Missing or empty transcript"}</div>
+
+    <p><strong>Test 3 — Empty transcript (400):</strong></p>
+    <div class="log">$ curl -s -X POST http://localhost:4100/api/chat/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{"transcript":"","model":"claude-sonnet-4-5-20250929","provider":"anthropic"}'
+
+HTTP 400
+{"error":"Missing or empty transcript"}</div>
+
+    <p><strong>Test 4 — Invalid provider (400):</strong></p>
+    <div class="log">$ curl -s -X POST http://localhost:4100/api/chat/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{"transcript":"test","model":"test","provider":"invalid"}'
+
+HTTP 400
+{"error":"Unsupported provider: invalid"}</div>
+
+    <p><strong>All 4 API tests passed.</strong></p>
+  </div>
+
+  <!-- SECTION 7: Verification Checklist -->
+  <h2>7. Verification Checklist</h2>
+  <div class="section">
+    <ul class="checklist">
+      <li class="pass">Static analysis passes with 0 errors in changed files</li>
+      <li class="pass">POST /api/chat/synthesize returns JSON { task: string } on valid input</li>
+      <li class="pass">Works with Anthropic provider (primary test path)</li>
+      <li class="pass">Returns 400 for missing transcript field</li>
+      <li class="pass">Returns 400 for empty transcript</li>
+      <li class="pass">Returns 400 for invalid provider with descriptive message</li>
+      <li class="pass">Uses SYNTHESIS_SYSTEM_PROMPT from defaults.ts</li>
+      <li class="pass">Temperature set to 0.3 for deterministic extraction</li>
+      <li class="pass">No runtime errors in server logs</li>
+      <li class="pass">No agentic smells (TODOs, commented-out code)</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 8: Verdict -->
+  <h2>8. Verdict</h2>
+  <div class="section">
+    <p><strong>Result: PASS</strong></p>
+    <p><strong>Notes:</strong></p>
+    <ul>
+      <li>Code review noted console.error in catch block and Google API key empty-string fallback as minor warnings (not blocking).</li>
+      <li>Provider client factory functions are duplicated from the discovery endpoint — noted as future refactoring opportunity.</li>
+      <li>Endpoint responds in 2.4-7.7s for valid synthesis (expected for LLM call).</li>
+    </ul>
+  </div>
+
+</body>
+</html>

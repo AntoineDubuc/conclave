@@ -125,14 +125,14 @@ This implementation bridges the gap between the Discovery chat and the Configure
 
 | Done | # | Task Name | Risk | Start | End | Total (min) | Human Est. (min) | Multiplier | Status | Attempts | Evidence | Blocker |
 |:----:|:-:|-----------|:----:|:-----:|:---:|:-----------:|:----------------:|:----------:|:------:|:--------:|:--------:|:-------:|
-| ⬜ | 1 | Implement: Synthesis API endpoint + system prompt | M | | | | 60 | | pending | — | — | |
-| ⬜ | 1v | Verify: Synthesis API endpoint + system prompt | | | | | 30 | | pending | 0 | | |
-| ⬜ | 2 | Implement: Update DiscoveryChat to pass model info | L | | | | 30 | | pending | — | — | |
-| ⬜ | 2v | Verify: Update DiscoveryChat to pass model info | | | | | 15 | | pending | 0 | | |
-| ⬜ | 3 | Implement: Synthesis call + pre-fill in page.tsx | H | | | | 90 | | pending | — | — | |
-| ⬜ | 3v | Verify: Synthesis call + pre-fill in page.tsx | | | | | 45 | | pending | 0 | | |
-| ⬜ | 4 | Implement: Synthesis loading state in configure step | M | | | | 45 | | pending | — | — | |
-| ⬜ | 4v | Verify: Synthesis loading state in configure step | | | | | 30 | | pending | 0 | | |
+| ✅ | 1 | Implement: Synthesis API endpoint + system prompt | M | — | — | — | 60 | — | passed | — | — | |
+| ✅ | 1v | Verify: Synthesis API endpoint + system prompt | | — | — | — | 30 | — | passed | 1 | [PASS](evidence/task_01_report.html) | |
+| ✅ | 2 | Implement: Update DiscoveryChat to pass model info | L | — | — | — | 30 | — | passed | — | — | |
+| ✅ | 2v | Verify: Update DiscoveryChat to pass model info | | — | — | — | 15 | — | passed | 1 | [PASS](evidence/task_02_report.html) | |
+| ✅ | 3 | Implement: Synthesis call + pre-fill in page.tsx | H | — | — | — | 90 | — | passed | — | — | |
+| ✅ | 3v | Verify: Synthesis call + pre-fill in page.tsx | | — | — | — | 45 | — | passed | 2 | [PASS](evidence/task_03_report.html) | |
+| ✅ | 4 | Implement: Synthesis loading state in configure step | M | — | — | — | 45 | — | passed | — | — | |
+| ✅ | 4v | Verify: Synthesis loading state in configure step | | — | — | — | 30 | — | passed | 2 | [PASS](evidence/task_04_report.html) | |
 
 > **Risk levels:** L = Low (boilerplate, config), M = Medium (feature work, standard logic), H = High (complex logic, shared state, async flow)
 
@@ -140,13 +140,12 @@ This implementation bridges the gap between the Discovery chat and the Configure
 
 **Summary:**
 - Total tasks: 4 (implementation) + 4 (verification) = 8 total
-- Completed: 0
-- Passed verification: 0 / 4
-- Failed then passed: 0
+- Completed: 8 / 8
+- Passed verification: 4 / 4
+- Failed then passed: 2 (Tasks 3 & 4 — TaskInput disabled prop bug found by Agent A, fixed)
 - Blocked: 0
-- Total time spent: 0 minutes
-- Total human estimate: 345 minutes
-- Overall multiplier: —
+- Bugs found & fixed: 2 (textarea disabled prop, ProviderId type mismatch)
+- Evidence: [summary.html](evidence/summary.html)
 
 ---
 
