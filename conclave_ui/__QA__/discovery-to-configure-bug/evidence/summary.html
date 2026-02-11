@@ -220,16 +220,30 @@ provider: ProviderId;  // "anthropic" | "openai" | "google" | "xai"</div>
     </div>
   </div>
 
-  <!-- Screenshots -->
-  <h2>Screenshots</h2>
+  <!-- E2E Flow Screenshots -->
+  <h2>End-to-End Flow Evidence</h2>
   <div class="section">
-    <h3>New Flow Page (/flows/new)</h3>
-    <img class="screenshot" src="assets/flow_new_page.png" alt="New Flow page" />
-    <p style="margin-top: 8px; color: #666; font-size: 13px;">Shows "Use Existing Flow" and "Create New Flow" options with sidebar navigation.</p>
+    <p style="margin-bottom: 16px;"><strong>Full wizard flow tested:</strong> Choice → Flow Type → Mode → Models → Discovery → Configure</p>
 
-    <h3 style="margin-top: 20px;">Advanced Flow Builder (/flows/new?mode=advanced)</h3>
-    <img class="screenshot" src="assets/advanced_mode.png" alt="Advanced Flow Builder" />
-    <p style="margin-top: 8px; color: #666; font-size: 13px;">Shows multi-step wizard (Discovery → Configure → Review → Execute), model selection with Anthropic and OpenAI providers.</p>
+    <h3>Step 1: Flow Type Selection</h3>
+    <img class="screenshot" src="assets/e2e_02b_flow_selected.png" alt="Round-Robin flow selected" />
+    <p style="margin-top: 8px; color: #666; font-size: 13px;">Selected Round-Robin flow pattern. Card highlights with purple border.</p>
+
+    <h3 style="margin-top: 20px;">Step 2: Model Selection</h3>
+    <img class="screenshot" src="assets/e2e_03_models.png" alt="Two models selected" />
+    <p style="margin-top: 8px; color: #666; font-size: 13px;">Selected Claude Opus 4.5 (Anthropic) and GPT-4.1 Pro (OpenAI). Header shows "2 selected".</p>
+
+    <h3 style="margin-top: 20px;">Step 3: Discovery Chat</h3>
+    <img class="screenshot" src="assets/e2e_04_discovery_chat.png" alt="Discovery chat with AI exchange" />
+    <p style="margin-top: 8px; color: #666; font-size: 13px;">User sent a business plan discovery message. AI responded with clarifying questions. "Continue to Configure" button is enabled.</p>
+
+    <h3 style="margin-top: 20px;">Step 4: Synthesis Loading Overlay</h3>
+    <img class="screenshot" src="assets/e2e_06_synthesis_loading.png" alt="Synthesis loading overlay visible" />
+    <p style="margin-top: 8px; color: #666; font-size: 13px;">"Synthesizing your discoveries..." overlay visible over TaskInput with spinner. Textarea is blurred behind the overlay.</p>
+
+    <h3 style="margin-top: 20px;">Step 5: Configure Step Pre-filled</h3>
+    <img class="screenshot" src="assets/e2e_07_configure_prefilled.png" alt="Configure step with synthesized task" />
+    <p style="margin-top: 8px; color: #666; font-size: 13px;">TaskInput pre-filled with synthesized task: "Create a business plan for a tech startup that covers three key areas: market analysis, financial projections, and go-to-market strategy..." Run Flow button is enabled (green).</p>
   </div>
 
   <!-- Files Changed -->
