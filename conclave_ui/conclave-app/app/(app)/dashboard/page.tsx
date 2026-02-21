@@ -36,7 +36,11 @@ export default async function DashboardPage() {
     .single();
 
   const billingType = (profile?.plan_type as "managed" | "byok") || "managed";
-  const userName = profile?.name?.split(" ")[0] || "there";
+  const userName =
+    profile?.name?.split(" ")[0] ||
+    (user.user_metadata?.full_name as string)?.split(" ")[0] ||
+    (user.user_metadata?.name as string)?.split(" ")[0] ||
+    "there";
 
   // Fetch balance for managed users
   let balance = 0;
