@@ -235,14 +235,15 @@ function NewFlowWizard() {
   const canProceedFromModels = selectedModels.length >= 2;
   const canProceedFromConfigure = taskText.trim().length > 0;
 
-  // Apply saved preference on load (if no URL param)
+  // Apply saved preference on load — skip mode step and go straight to models
   // This effect runs after hydration to avoid SSR mismatch
   useEffect(() => {
     if (isLoaded && preference && !modeParam && currentStep === "mode") {
       setMode(preference);
-      setCurrentStep("flow-type");
+      setCurrentStep("models");
+      router.push(`/flows/new?mode=${preference}`, { scroll: false });
     }
-  }, [isLoaded, preference, modeParam, currentStep]);
+  }, [isLoaded, preference, modeParam, currentStep, router]);
 
   // ==========================================================================
   // Entry choice handler (Use Existing / Create New)
@@ -940,7 +941,7 @@ function NewFlowWizard() {
                         value={taskText}
                         onChange={setTaskText}
                         isRunning={isExecuting}
-                        disabled={isSynthesizing || !canProceedFromConfigure}
+                        disabled={isSynthesizing}
                       />
                       {isSynthesizing && (
                         <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm rounded-lg">
@@ -1024,7 +1025,7 @@ function NewFlowWizard() {
                           value={taskText}
                           onChange={setTaskText}
                           isRunning={isExecuting}
-                          disabled={isSynthesizing || !canProceedFromConfigure}
+                          disabled={isSynthesizing}
                         />
                         {isSynthesizing && (
                           <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm rounded-lg">
