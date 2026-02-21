@@ -13,7 +13,7 @@ import {
   MODEL_METADATA,
 } from "../types/llm-settings";
 import { MODEL_MAPPING } from "./config";
-import { getModelById, type ProviderId, type ModelInfo } from "../models";
+import { getModelById, type ProviderId } from "../models";
 
 // =============================================================================
 // System Prompt Templates

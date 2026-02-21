@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 import { FlowEntrySelector, type FlowEntryChoice } from "@/components/flows/flow-entry-choice";
 import { DynamicFlowSelector } from "@/components/flows/dynamic-flow-selector";
 import { FlowType } from "@/components/flows/flow-type-card";
-import { isBuiltInPattern, type SelectableFlow, type BuiltInPatternId } from "@/lib/types/flow";
+import { isBuiltInPattern, type SelectableFlow } from "@/lib/types/flow";
 import { TieredModelPicker, type ModelSelection } from "@/components/flows/model-picker";
 import { TaskInput } from "@/components/flows/task-input";
 import { CostEstimator, type FlowModelConfig } from "@/components/flows/cost-estimator";
@@ -173,7 +173,7 @@ function NewFlowWizard() {
   });
 
   // Track if user chose "use existing flow" (used for UI state tracking, not rendered directly)
-  const [_entryChoice, setEntryChoice] = useState<FlowEntryChoice | null>(() => {
+  const [, setEntryChoice] = useState<FlowEntryChoice | null>(() => {
     // If mode is already set via URL, they're using existing flow
     if (modeParam === "basic" || modeParam === "advanced") {
       return "existing";
@@ -369,7 +369,6 @@ function NewFlowWizard() {
       });
 
       if (!response.ok) {
-        console.warn("Synthesis failed:", response.status);
         return;
       }
 
@@ -378,8 +377,8 @@ function NewFlowWizard() {
         // Only set if user hasn't started typing
         setTaskText((current) => current.trim() ? current : data.task);
       }
-    } catch (err) {
-      console.warn("Synthesis error:", err);
+    } catch {
+      // Synthesis is best-effort; user can still type manually
     } finally {
       setIsSynthesizing(false);
     }

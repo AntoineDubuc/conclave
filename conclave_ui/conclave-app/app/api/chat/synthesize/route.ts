@@ -40,7 +40,11 @@ function getOpenAIClient(apiKey?: string): OpenAI {
 }
 
 function getGoogleClient(apiKey?: string): GoogleGenerativeAI {
-  return new GoogleGenerativeAI(apiKey || process.env.GEMINI_API_KEY || "");
+  const key = apiKey || process.env.GEMINI_API_KEY;
+  if (!key) {
+    throw new Error("Google API key not configured");
+  }
+  return new GoogleGenerativeAI(key);
 }
 
 function getXAIClient(apiKey?: string): OpenAI {
