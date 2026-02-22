@@ -94,8 +94,8 @@ export interface ExecutorFlowConfig {
 export const LEGACY_MODEL_MAPPING: Record<LegacyModelId, ModelMapping> = {
   claude: {
     provider: "anthropic",
-    model: "claude-sonnet-4-5-20250514",
-    displayName: "Claude Sonnet 4.5",
+    model: "claude-sonnet-4-6",
+    displayName: "Claude Sonnet 4.6",
   },
   gpt4: {
     provider: "openai",
